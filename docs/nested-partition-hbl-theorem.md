@@ -87,6 +87,8 @@ small partition boundary check=True
 
 This supports rectangularization in the smallest cases but proves nothing for general dimensions or three nested partitions.
 
+A three-level exhaustive check is now also available as `experiments/check_nested_partition_boundary.py`.  For the two chains `(1, 2, 4)` and `(2, 4, 8)` on the same product set, it reports `arbitrary_min == rectangular_min` (12 and 24 respectively).  This remains finite evidence only: it does not cover larger dimensions, irregular work, dynamic replication, or recomputation.
+
 ## Why this route matters
 
 It separates two logically different claims:
