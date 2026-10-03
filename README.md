@@ -18,6 +18,7 @@ The divisor-profile arrangement remains a reproducible geometry case study, but 
 - `experiments/check_shared_cache_hbl_optimum.py` — verifies the homogeneous-owner unique phase-budget root.
 - `experiments/check_typed_projection_envelope.py` — checks the typed A/B/C projection relaxation.
 - `experiments/check_typed_projection_tightness.py` — checks the rectangular equality certificate for a typed phase.
+- `experiments/check_nested_partition_theorem.py` — exhaustively checks incidence increments on small nested partition chains.
 - `docs/reports/` — agent reports and proof-gap notes.
 - `experiments/` — exact enumeration, symbolic certificates, scans, and counterexample searches.
 - `context/` — the current research handoff and explicit proof-status boundaries.
