@@ -6,15 +6,18 @@
 
 把处理器层次抽象成一棵 rooted tree `H`。叶节点是最细计算 owner；内部节点是较粗的 owner group。每个层次边 `e` 有非负 word cost `w(e)`。对每个数据项，规定一个已有的 source owner；在源 owner 所在的子树内，可以把一个已有 copy 留在一个 child，其余需求 child 需要接收新 copy。这是与 SG-1 和静态 nested-partition 定理相同的 local-copy convention。
 
-对一个 A-entry `a`，令 `R_A(a)` 是需要它的最细 owner leaves 集合；对 B-entry 和 C-entry 分别定义 `R_B(b)` 和 `R_C(c)`。C 的 `R_C(c)` 表示产生该 partial contribution 的 leaves，最终需要把它们归并到规定的 output sink。
+对一个 A-entry `a`，令 `R_A(a)` 是需要它的最细 owner leaves 集合；A/B 各自从一个 source owner 开始。对 B-entry 定义 `R_B(b)`。对 C-entry，`R_C(c)` 是产生 partial contribution 的 leaves，另有规定的 output sink `t_C(c)`；C 的子树必须连接所有这些 source leaves 与 sink。
 
 ## Copy-lineage 下界
 
-令 `Tree_H(s,R)` 是连接 source `s` 和需求集合 `R` 的最小层次子树，并按 local-copy convention 去掉无需传输的 source-to-retained-child 边。定义
+令 `Tree_H(s,R)` 是连接 source `s` 和需求集合 `R` 的最小层次子树，并按 local-copy convention 去掉无需传输的 source-to-retained-child 边。对 C，`Tree_H(R,t)` 表示连接多个 source leaves 与 sink `t` 的最小子树。定义
 
 $$
 \operatorname{cost}_H(s,R)=
-\sum_{e\in Tree_H(s,R)} w(e).
+\sum_{e\in Tree_H(s,R)} w(e),
+\qquad
+\operatorname{cost}_H(R,t)=
+\sum_{e\in Tree_H(R,t)} w(e).
 $$
 
 在一次产品计算、无 recomputation、单份初始输入和单份最终输出的模型中，任意执行满足
@@ -25,7 +28,7 @@ Q_{\rm weighted}\ge
 +
 \sum_{b\in B}\operatorname{cost}_H(s_B(b),R_B(b))
 +
-\sum_{c\in C}\operatorname{cost}_H(s_C(c),R_C(c)).
+\sum_{c\in C}\operatorname{cost}_H(R_C(c),t_C(c)).
 \tag{STEINER-LB}
 $$
 
