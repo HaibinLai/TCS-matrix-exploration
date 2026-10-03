@@ -144,9 +144,9 @@ N_{\rm inc,w}=
 
 \[
 V_\ell\ge
-(c_\ell-c_\ell+1)mk
- +(a_\ell-a_\ell+1)kn
- +(b_\ell-b_\ell+1)mn.
+(c_\ell-c_{\ell+1})mk
+ +(a_\ell-a_{\ell+1})kn
+ +(b_\ell-b_{\ell+1})mn.
 \]
 
 这里下标应理解为 $c_{\ell+1},a_{\ell+1},b_{\ell+1}$；完整定义和证明见 `docs/t3-static-hierarchical-theorem.md`。对应的增量 envelope 有匹配 schedule，因此在这个静态模型中是 tight。
