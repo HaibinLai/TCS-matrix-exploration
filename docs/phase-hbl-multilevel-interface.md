@@ -131,8 +131,7 @@ $$
 HBL 给出 phase-work 约束
 
 $$
-|F|\le
-\sqrt{|\pi_A(F)|,|\pi_B(F)|,|\pi_C(F)|},
+|F| ≤ √(|π_A(F)| · |π_B(F)| · |π_C(F)|).
 $$
 
 而容量/phase budget 给出对 `φ(F)` 或各投影的上界。真正的联合下界应优化
