@@ -106,3 +106,9 @@ Q_{\mathrm{vol}}(\mathcal A)
 - 尚无脚本证明 Lemma A 或 Lemma B 对任意 GEMM schedule 成立。
 
 因此目前最重要的下一步是补出 Lemma A 的物理尺度推导，而不是继续增加 $r$ 的样本。
+
+## 已取得的受限定理：T3-static
+
+`docs/static-grid-ownership-lemma.md` 和 `work/check_static_grid_ownership.py` 完成了 static-grid 版本的复制/归约计数。固定 (a\times b\times c) grid、单份初始输入、每个 product 一次计算时，SG-1 给出 exact leading edge volume，标准 broadcast/reduction schedule 可以达到它。若三条边的 ownership maps componentwise coarsen，则对兼容 chain 求和得到 T3-static。
+
+这不是 arbitrary-schedule 的 T3-volume：动态 grid、免费初始复制、recomputation 和不规则 ownership 仍未覆盖。
