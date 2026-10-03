@@ -46,7 +46,7 @@ V_\ell^C\ge\Delta_\ell^C.
 \tag{NP-vector}
 \]
 
-证明是逐个 incidence 计数。若某个 A-entry 在粗分区出现 $d_c$ 个 owner parts，在细分区出现 $d_f$ 个 owner parts，那么已有 copies 只能覆盖 (d_c) 个 incidence，至少需要 $d_f-d_c$ 个新 copy。对所有 A-entries 求和就是 $\Delta_\ell^A$。B 相同。C 的 $d_f$ 个 partial aggregates 需要归并到 $d_c$ 个粗 owner parts，至少需要 $d_f-d_c$ 次 movement。
+证明是逐个 incidence 计数。若某个 A-entry 在粗分区出现 $d_c$ 个 owner parts，在细分区出现 $d_f$ 个 owner parts，那么已有 copies 只能覆盖 $d_c$ 个 incidence，至少需要 $d_f-d_c$ 个新 copy。对所有 A-entries 求和就是 $\Delta_\ell^A$。B 相同。C 的 $d_f$ 个 partial aggregates 需要归并到 $d_c$ 个粗 owner parts，至少需要 $d_f-d_c$ 次 movement。
 
 因此对任意非负边和数据类型成本，
 \[
@@ -105,7 +105,7 @@ Q_w\ge
 穷举全部 315 条嵌套分区链后，任意分区最优值确实为 12；但所有矩形 grid chain 的最优增量是
 \[
 (4,4,4),
-]
+\]
 加权成本为
 \[
 1\cdot4+2\cdot4+1\cdot4=16.
