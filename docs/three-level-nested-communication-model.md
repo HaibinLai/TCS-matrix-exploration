@@ -20,11 +20,11 @@ v_{ikj}=a_{ik}b_{kj},
 
 1. 每个 scalar product 只计算一次；
 2. replication 必须通过被计费的通信产生；
-3. 输入可以任意初始分布，但输入从慢层读入、输出写回慢层都计入通信；
+3. v0 theorem 在源层 $g_4=(1,1,1)$ 为每个 A、B entry 只提供一个付费 source copy，并在最终 sink 只保留一个 C output；其他初始分布和免费 replication 属于后续扩展；
 4. 每个最内层处理单元承担平衡的 $\Theta(n^3/P_1)$ 工作；
 5. processor grid 在一次 GEMM 中固定，暂不允许执行期间动态改变 grid。
 
-第 1–5 条是 **v0 theorem 的模型假设**，不是对所有实际 GEMM 实现的声明。重计算、动态重分块和不平衡调度将在后续版本单独处理。
+第 1–5 条是 **v0 theorem 的模型假设**，不是对所有实际 GEMM 实现的声明。重计算、动态重分块、不平衡调度、任意初始复制和有限容量 reload 将在后续版本单独处理。
 
 ## 2. 三层 hierarchy
 
@@ -88,6 +88,8 @@ v0 只计 word volume。我们把三条收费边界编号为：慢存储↔$P_3$
 \[
 Q_{\mathrm{vol}}=\sum_{\ell=1}^{3}V_\ell.
 \]
+
+T3-static-vector 只对上述 source/sink 计费口径成立：输入 source copy、broadcast/reduction movement、partial materialization 和最终 output movement都属于计费事件；它不包含有限容量导致的重复 reload。后者需要额外的phase trace 约束，见 finite-capacity-phase-cut-envelope 文档。
 
 v0 不把 latency、message count、同步次数和能耗混进同一个标量。后续可定义
 
