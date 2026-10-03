@@ -430,3 +430,79 @@ shape；同时共享 \(\mathbf g\) 防止一个 shared B tile 被按 owner 重�
 这仍然是 phase relaxation，不是 tightness 证明。下一步应研究 typed maximizer
 何时对应实际 blocked tile，以及何时 projection overlap 使 \(TP\text{-}4\)
 仍然过松。
+
+## Typed rectangular phase 的取等条件
+
+可以先把 \(TP\text{-}4\) 的一个可证明 tight 子族单独抽出来。对 owner
+\(r\)，设 phase 中完成的乘法恰好是
+
+\[
+F_{r,t}=I_{r,t}\times K_{r,t}\times J_{r,t}.
+\]
+
+记
+
+\[
+i_{r,t}=|I_{r,t}|,\qquad
+k_{r,t}=|K_{r,t}|,\qquad
+j_{r,t}=|J_{r,t}|.
+\]
+
+三个 operand projection 的大小于是必须满足
+
+\[
+x_{r,A}=i_{r,t}k_{r,t},\qquad
+x_{r,B}=k_{r,t}j_{r,t},\qquad
+x_{r,C}=i_{r,t}j_{r,t}.
+\tag{TP-EQ-1}
+\]
+
+如果 typed allocation 正好给出
+
+\[
+x_{r,X}=m_{r,X}+g_X+b_X,
+\tag{TP-EQ-2}
+\]
+
+并且 local、shared、arrival 三类 entry 在每个 projection 上互不重叠，
+那么
+
+\[
+|F_{r,t}|=i_{r,t}k_{r,t}j_{r,t}
+=\sqrt{x_{r,A}x_{r,B}x_{r,C}}
+=\psi_r.
+\tag{TP-EQ-3}
+\]
+
+因此，在以下四个条件同时成立时，typed HBL 对该 phase 逐 owner 取等：
+
+1. 乘法集合是 \(I\times K\times J\) 的笛卡尔积；
+2. 三个 projection 的大小满足 \(TP\text{-}EQ\text{-}1\)；
+3. \(TP\text{-}EQ\text{-}2\) 的三类 entry 没有隐藏 overlap；
+4. shared entries 只在 edge 上 arrival 一次，随后在 child group 内复用，
+   且没有 recomputation 或未计费的 materialization。
+
+若连续 \(q\) 个 full phases 都满足这些条件，并且每个 phase 的 edge arrival
+恰好达到 \(B\)，则
+
+\[
+W_e=q\sum_r\psi_r,\qquad V_e=qB
+\]
+
+（最后一个不足 full phase 的 remainder 另行计数）。换句话说，\(TP\text{-}HBL\)
+的 phase packing 项在这个受限 schedule family 上是可达到的。这个结论不等于
+一般有限容量定理：一般执行可能有非笛卡尔 product set、不同 owner 之间的
+projection overlap，或跨 phase 保留 partial；把任意执行规约到上述四个条件，
+正是当前尚未解决的 tightness 问题。
+
+一个实用的可检验条件是，给定 typed projection 三元组
+\((x_A,x_B,x_C)\)，检查
+
+\[
+i=\sqrt{\frac{x_Ax_C}{x_B}},\qquad
+k=\sqrt{\frac{x_Ax_B}{x_C}},\qquad
+j=\sqrt{\frac{x_Bx_C}{x_A}}
+\]
+
+是否都是整数。若不是，HBL 仍给出合法下界，但这个 phase 不可能由单个
+整数笛卡尔 tile 直接达到，只能通过多个 tile 或带 remainder 的构造逼近。
