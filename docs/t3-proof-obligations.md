@@ -71,7 +71,7 @@ $$
 
 `docs/t3-arbitrary-schedule-steiner-theorem.md` 已经给出一个不要求单一 componentwise-divisible grid chain 的结果：固定 rooted hierarchy tree 后，动态 owner labels 只需汇总成每个数据项的需求叶集合；每条 cut 上的 copy-lineage/partial-reduction indicator 给出加权 word-volume 下界，树形 broadcast/reduction 达到它。这个结果覆盖 arbitrary leaf assignment，但暂不加入容量和 phase reload。
 
-剩下的更强目标是把 Steiner cut 与 time-expanded phase trace 接起来。当前已证明的动态 corollary 只有
+剩下的更强目标是把 Steiner cut 与 time-expanded phase trace 接起来。`docs/finite-capacity-phase-cut-envelope.md` 已把这个接口写成 (TR-1)--(TR-5) 的联合可行域，并证明任何真实执行都映射到该 envelope；目前还没有求出其一般闭式值或 matching finite-capacity schedule。当前已证明的动态 corollary 只有
 
 $$
 ∑_{ℓ=1}^{L} V_ℓ ≥ ∂(Π_fine),
@@ -97,9 +97,11 @@ $$
 - `check_nested_partition_weighted_counterexample.py`：证明非对称成本下矩形化反例；
 - `check_l_level_static_theorem.py`：验证静态 `L`-level 增量定理；
 - `check_t3_arbitrary_schedule_steiner.py`：枚举小树上的任意需求集合，验证 cut 下界与显式 broadcast/reduction 的边集计数一致；
+- `check_finite_capacity_joint_envelope.py`：验证联合 trace 中首次加载与 phase 项的重叠算术；
+- `exact_small_gemm_pebble.py`：在明确省略最终写回的 toy pebble 模型中，精确搜索 (2\times2\times2) 的 resident-state optimum；
 - `prove_2r_subfamily_empty_cell_certificates.py`：验证固定 divisor profile 的 arrangement cells。
 
-因此目前最重要的下一步是补出 phase/HBL 的物理尺度推导和 time-expanded trace lemma，而不是继续增加 `r` 的样本。
+因此目前最重要的下一步是对联合 trace 做小型 GEMM 的整数搜索，再补出 phase/HBL 的物理尺度推导和 matching trace，而不是继续增加 `r` 的样本。
 
 ## 状态边界
 

@@ -101,13 +101,17 @@ dims=(2, 2, 3) levels=(2,4) arbitrary_min=18 rectangular_min=18
 
 ### 4. 接回物理容量与多级尺度（当前主缺口）
 
-组合分区定理成立后，再把每一级的容量和处理器数接回去。对第 \(\ell\) 层，至少要同时保留三种量：
+组合分区定理成立后，再把每一级的容量和处理器数接回去。当前采用
+`docs/finite-capacity-phase-cut-envelope.md` 的联合 trace，而不是把两个
+标量下界直接相加。对第 \(\ell\) 层，至少要同时保留三种量：
 
 - phase/HBL 容量项，例如 \(\Omega(mnk/(P_\ell\sqrt{M_\ell}))\)；
 - owner/replication 项，由 \(B_{\rm part}\) 或矩形 grid envelope 给出；
 - 必需的输入输出项 \(\Omega(mk+kn+mn)\)。
 
-不能把这些项未经证明直接相加。需要先说明哪些事件集合互不相交，或者给出带权 charging，使最终形式类似
+不能把这些项未经证明直接相加。联合 trace 已给出一个总加载事件的可行域；
+仍需对该可行域求出闭式或可证明的整数/连续 envelope，并说明哪些 schedule
+达到它。最终形式可能类似
 \[
 Q_\ell\ge
 \max\{Q^{\rm phase}_\ell,Q^{\rm owner}_\ell,Q^{\rm I/O}_\ell\}
@@ -141,8 +145,8 @@ Q\ge \sum_{\ell=1}^{L} w_\ell\,\Delta(\Pi_\ell,\Pi_{\ell+1}),
 
 ## 近期执行顺序
 
-1. 完成动态 time-expanded owner lemma，明确逐边 chain 何时成立；
-2. 将有限容量 phase/HBL 项与 nested-partition 增量项对齐；
+1. 对 `E-TRACE` 做 (2^3) 和 (3^3) GEMM 的整数 trace 搜索，测出 overlap correction；
+2. 将有限容量 phase/HBL 项与 nested-partition/Steiner 增量项对齐；
 3. 分别处理 free replication 和 recomputation；
 4. 在一般 nested partition 基础上再研究 SYRK/SYMM 等结构化 kernel；
 5. 只把矩形 factor arrangement 作为可实现特例和实验平台。

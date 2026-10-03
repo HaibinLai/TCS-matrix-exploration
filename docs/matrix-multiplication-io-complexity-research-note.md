@@ -1691,3 +1691,16 @@ interface is a joint phase-trace envelope; simply adding the ownership and phase
 terms is not proved. `experiments/check_t3_arbitrary_schedule_steiner.py` checks
 the cut count against explicit tree paths on all nonempty demand subsets of a
 small three-level tree.
+
+`docs/finite-capacity-phase-cut-envelope.md` now formalizes this interface with
+resident sets, load sets, HBL constraints, and cut indicators. It proves the
+variational lower bound for any induced trace and records the first concrete
+overlap arithmetic; obtaining its general optimum and a matching finite-capacity
+schedule is the next theorem-level task.
+
+The first exact toy trace is now checked by
+`experiments/exact_small_gemm_pebble.py`: under its explicitly stated
+read/partial-load conventions, a (2\times2\times2) one-owner GEMM needs
+12 loads at (M=3), while the separate cut/phase terms give only
+\(\max(8,5.49\ldots)=8\). This is evidence for a resident-state correction,
+not a claim about the full standard I/O model because final writes are omitted.
