@@ -2,16 +2,27 @@
 
 这份文件把三层 nested communication lower bound 拆成可以分别验证的命题。它不把当前的 $N(z,y)$ 直接当成已经证明的下界。
 
-## 目标
+## 已证明目标：静态 nested-partition theorem
 
-在 static-grid、no-recomputation、counted-replication 的 classical GEMM 模型中，证明
+对 classical GEMM 的产品集合 (T=[m]	imes[k]	imes[n])，令
+(Pi_1preceqPi_2preceqPi_3preceqPi_4={T}) 是 owner-consistent nested partitions。定义
+[
+X_A(Pi)=sum_{SinPi}|pi_A(S)|,
+\quad X_B(Pi)=sum_{SinPi}|pi_B(S)|,
+\quad X_C(Pi)=sum_{SinPi}|pi_C(S)|.
+]
+在一次产品计算、单份初始输入、单份最终输出的模型中，第 (ell) 条边满足
+[
+V_ell^Age X_A(Pi_ell)-X_A(Pi_{ell+1}),
+]
+[
+V_ell^Bge X_B(Pi_ell)-X_B(Pi_{ell+1}),
+\quad
+V_ell^Cge X_C(Pi_ell)-X_C(Pi_{ell+1}).
+]
+树形 broadcast/reduction 在相同拓扑模型下达到这些计数。完整陈述见 `docs/nested-partition-static-theorem.md`。
 
-\[
-Q_{\mathrm{vol}}(\mathcal A;z,y)
-\ge
-\min_{\mathbf g\in\mathcal C(P^*)}
-\sum_{\ell=1}^{3}\Lambda_\ell(g_\ell;z,y)-O(n^2).
-\]
+矩形 grids 是该定理的特例；`docs/t3-static-hierarchical-theorem.md` 给出对应的闭式增量公式。
 
 ## Lemma A：单层 projection bound
 
@@ -33,7 +44,7 @@ Q_{\mathrm{vol}}(\mathcal A;z,y)
 V_\ell\ge \Lambda_\ell(g_\ell;z,y)-O(n^2).
 \]
 
-**尚未完成的部分：** 需要明确 $s$、本地容量 $M_\ell$、replication、输入输出 materialization 如何进入不等式，并证明最后的系数确实是
+**仍待完成的部分：** 需要把 phase 切分、本地容量 $M_\ell$、replication 和输入输出 materialization 接到上述 owner-boundary theorem 上，并证明有限容量项的精确系数是
 
 \[
 \Lambda_\ell(g;z,y)
@@ -67,24 +78,15 @@ Q_{\mathrm{vol}}=V_1+V_2+V_3.
 
 在这个计费定义下，Lemma A 的三个 lower bounds 可以相加；输入输出 materialization 只产生 $O(n^2)$ 边界项。
 
-## Conditional theorem
+## Arbitrary-schedule lifting target
 
-若 Lemma A 对所有允许的 static ownership grid 成立，且 Lemma B 的 chain 约束覆盖所有合法 schedule，则对任意 schedule 有
-
+静态 nested-partition theorem 已经完成；更强的 arbitrary-schedule 目标是证明：动态 owner labels 能诱导一个 time-expanded nested partition，或者给出一个不弱于它的带权 copy-lineage 下界。当前已证明的动态 corollary 只有
 \[
-Q_{\mathrm{vol}}(\mathcal A)
-\ge
-\sum_{\ell=1}^{3}\Lambda_\ell(g_\ell;z,y)-O(n^2)
+\sum_{\ell=1}^{3}V_\ell\ge \partial(\Pi_{m fine}),
 \]
+它不提供逐边 chain envelope。
 
-对于某条实际 chain。对所有可能的 chain 取最小值，得到
-
-\[
-Q_{\mathrm{vol}}(\mathcal A)
-\ge N(z,y)-O(n^2).
-\]
-
-这说明 $N$ 是 conditional theorem 的右侧；它不是单靠 arrangement enumeration 得出的无条件 lower bound。
+因此旧的完整 affine-line sum (N(z,y)) 仍只能作为矩形几何 proxy。要得到带容量的 T3-volume，需要额外证明 phase/HBL 项与 nested-partition 增量项如何 charging，不能由 arrangement enumeration 单独推出。
 
 ## 需要的反例检查
 
@@ -103,12 +105,13 @@ Q_{\mathrm{vol}}(\mathcal A)
 - `check_one_level_recovery.py`：验证矩形 GEMM 的 affine geometry；
 - `check_three_level_model.py`：验证 grid compatibility、envelope counts 和 $N\ge I$；
 - `prove_2r_subfamily_empty_cell_certificates.py`：验证一个固定 divisor profile 的 arrangement cells；
-- 尚无脚本证明 Lemma A 或 Lemma B 对任意 GEMM schedule 成立。
+- `check_nested_partition_weighted_counterexample.py`：证明非对称成本下矩形化反例；
+- `check_l_level_static_theorem.py`：验证静态 (L)-level 增量定理。
 
-因此目前最重要的下一步是补出 Lemma A 的物理尺度推导，而不是继续增加 $r$ 的样本。
+因此目前最重要的下一步是补出 phase/HBL 的物理尺度推导和 time-expanded owner lemma，而不是继续增加 (r) 的样本。
 
 ## 已取得的受限定理：T3-static
 
 `docs/static-grid-ownership-lemma.md` 和 `work/check_static_grid_ownership.py` 完成了 static-grid 版本的复制/归约计数。固定 (a\times b\times c) grid、单份初始输入、每个 product 一次计算时，SG-1 给出 exact leading edge volume，标准 broadcast/reduction schedule 可以达到它。若三条边的 ownership maps componentwise coarsen，则对兼容 chain 求和得到 T3-static。
 
-这不是 arbitrary-schedule 的 T3-volume：动态 grid、免费初始复制、recomputation 和不规则 ownership 仍未覆盖。
+这不是 arbitrary-schedule 的 T3-volume：动态 grid、免费初始复制、recomputation 和有限容量 phase coupling 仍未覆盖。
