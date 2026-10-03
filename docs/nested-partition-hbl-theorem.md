@@ -97,3 +97,29 @@ It separates two logically different claims:
 2. **Rectangularization theorem:** rectangular nested grids attain the minimum boundary.
 
 The first claim is closer to a general communication lower bound. The second is the exact bridge to the current factor/divisor arrangement. If rectangularization fails, the correct theorem should use $B_{\mathrm{part}}$, and the grid experiments become upper-bound constructions or special cases rather than universal lower bounds.
+
+
+## 修正后的多级解释
+
+原来把
+\[
+\sum_\ell \partial(\Pi_\ell)
+\]
+作为多级总 volume 的目标并不正确：粗层已经产生的 projection copies 会在细层再次出现。静态 owner-consistent 模型的正确对象是逐边增量
+\[
+\Delta_\ell^A=X_A(\Pi_\ell)-X_A(\Pi_{\ell+1}),
+\quad
+\Delta_\ell^B=X_B(\Pi_\ell)-X_B(\Pi_{\ell+1}),
+\quad
+\Delta_\ell^C=X_C(\Pi_\ell)-X_C(\Pi_{\ell+1}),
+\]
+其中 (X_A,X_B,X_C) 是各分区的投影和。
+
+因此：
+
+- 单边 partition-boundary lemma 仍然成立；
+- 静态多级定理应使用 (Delta_ell) 的 weighted envelope；
+- 纯 aggregate volume 下增量会 telescoping 到最细 partition；
+- 非对称成本下，中间 partitions 仍然重要，而且矩形化已经有 (2\times2\times2) 反例。
+
+一般嵌套分区定理和反例见 `docs/nested-partition-static-theorem.md`。本文件保留早期 HBL 路线作为历史推导记录，不再把 (B_{\mathrm{part}}=\sum_\ell\partial(\Pi_\ell)) 当作最终多级通信定理。
