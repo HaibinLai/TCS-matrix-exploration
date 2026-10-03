@@ -1635,3 +1635,32 @@ $(r,q)=(31,127),(37,151),(41,167),(47,191),(59,239),(67,271),(89,359),
 运行完整 25-line $U_8/I$ arrangement。全部精确命中
 $z=(2q+3)/(5q),y=1/r$ 及闭式比值；连同此前六个样本，共 20 个 exact global cases。
 这些结果仍针对固定 divisor profile，不能替代参数化的 no-new-cell 证明。
+
+## Formal three-level model (v0)
+
+The next phase is now specified in [three-level-nested-communication-model.md](three-level-nested-communication-model.md). The base object is square classical GEMM (C=AB) with a static three-level processor hierarchy, no recomputation, counted replication, balanced work, and edge-based word volume. For (P_1\ge P_2\ge P_3), a grid chain satisfies componentwise divisibility (g_3\preceq g_2\preceq g_1).
+
+The normalized experiment uses
+
+$$
+\ell(g;z,y)=\frac1{ab}+\frac{z}{ac}+\frac{y}{bc},
+\qquad 0\le y\le z\le1,
+$$
+
+then defines the independent envelope (I) and compatible-chain envelope (N). The research theorem is no longer stated as an unconditional claim about (N/I): the missing lifting step is to derive the physical scale factors (\kappa_\ell(n,P_\ell,M_\ell)) from a GEMM DAG/phase argument and prove
+
+$$
+Q_{\mathrm{vol}}(\mathcal A;z,y)\ge N(z,y)-O(n^2).
+$$
+
+A matching blocked schedule for every active chain is required for tightness. `work/check_three_level_model.py` verifies the normalized line, compatibility relation, envelope counts, and (N\ge I) sanity condition for (P^*=(460,230,10)); it does not claim the physical lower-bound theorem is proved.
+
+### One-level recovery checkpoint
+
+`work/check_one_level_recovery.py` restores the unnormalized rectangular GEMM line
+
+$$
+\lambda_{m,k,n}(a,b,c)=\frac{mk}{ab}+\frac{mn}{ac}+\frac{kn}{bc}.
+$$
+
+For a square problem and cubic grid this is (3n^2/P^{2/3}), so the current affine geometry recovers the standard one-level memory-independent scaling. This is a units/geometry check only; the HBL lower-bound proof and finite-memory term are still separate obligations.

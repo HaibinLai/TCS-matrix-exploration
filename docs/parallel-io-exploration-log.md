@@ -3673,3 +3673,16 @@ $((2q+3)/(5q),1/r)$ 和闭式比值；加上此前六个样本，目前共有 20
 retreat CPU 又逐个枚举了固定 profile 的所有 cell：对每个整数 $21\le r\le40$（$q=4r+3$），
 均为 33 个 cell，且 owner/chain signature 与 $r=21$ 完全相同（`BAD []`）。这扩大了稳定区间的
 有限证据，但没有消除实参数 no-new-cell 缺口。
+
+## 115. Formal three-level theorem model
+
+新增 `outputs/three-level-nested-communication-model.md`，正式固定了 v0 模型：square classical GEMM、static three-level grid、no recomputation、counted replication、balanced work、edge-based word volume，以及 componentwise-divisible nested chains。文档把当前的归一化 affine lines 与真正的物理通信量分开：后者需要从 GEMM DAG/phase argument 推导尺度因子 \(\kappa_\ell(n,P_\ell,M_\ell)\)。
+
+目标定理分成两层：`T3-volume` 要证明任意合法 schedule 满足
+\(Q_{\mathrm{vol}}\ge N-O(n^2)\)，`T3-tight` 还要求为每条 active chain 构造 matching blocked schedule。新增 `work/check_three_level_model.py` 只做模型一致性检查，不冒充下界证明。
+
+## 116. One-level recovery checkpoint
+
+新增 `work/check_one_level_recovery.py`。它把归一化 line 还原为矩形 GEMM 的
+\(\lambda_{m,k,n}=mk/(ab)+mn/(ac)+kn/(bc)\)，并对 cubic square cases
+\(P=1,8,27,64,125\) 精确验证 \(3n^2/P^{2/3}\)。这一步只确认 affine geometry 和量纲，尚未替代 HBL/phase-partition lower-bound proof。
