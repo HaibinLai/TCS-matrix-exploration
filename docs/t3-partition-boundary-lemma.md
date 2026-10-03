@@ -149,21 +149,21 @@ V_E\ge
 
 ## 多级 time-expanded corollary：不要求单一 chain
 
-设一个 (L) 层执行允许 owner 在不同时间变化，但仍满足：每个 product 只计算一次、输入没有免费初始复制、最终每个 C-entry 只有一个输出。令 (Pi_{m fine}) 是最细计算层在产品计算事件上诱导的 owner partition。
+设一个 $L$ 层执行允许 owner 在不同时间变化，但仍满足：每个 product 只计算一次、输入没有免费初始复制、最终每个 C-entry 只有一个输出。令 (Pi_{\rm fine}) 是最细计算层在产品计算事件上诱导的 owner partition。
 
-对一个 A-entry (a)，记 (d_A(a)) 为最终需要该 entry 的不同最细 owner group 数。源层只有一个 copy，而一次跨任意层边的 word transfer 至多使可达 copy 数增加一个。因此所有层合计的 A traffic 满足
+对一个 A-entry $a$，记 $d_A(a)$ 为最终需要该 entry 的不同最细 owner group 数。源层只有一个 copy，而一次跨任意层边的 word transfer 至多使可达 copy 数增加一个。因此所有层合计的 A traffic 满足
 \[
 \sum_{\ell=1}^{L}V_\ell^A
 \ge\sum_a(d_A(a)-1).
 \]
-对 B 同理。对一个 C-entry，若最终有 (d_C(c)) 个不同 owner group 产生 partial contribution，则把这些 partials 合并为一个输出至少需要 (d_C(c)-1) 次跨层 movement。于是
+对 B 同理。对一个 C-entry，若最终有 $d_C(c)$ 个不同 owner group 产生 partial contribution，则把这些 partials 合并为一个输出至少需要 (d_C(c)-1) 次跨层 movement。于是
 \[
 \sum_{\ell=1}^{L}V_\ell
 \ge \partial(\Pi_{\rm fine}).
 \tag{TE-PB}
 \]
 
-(TE-PB) 不需要固定 grid，也不需要不同层的 owner map 形成单一 chain。它的代价是只给出总 volume 下界，不能分别给出每条边的 (V_\ell) 下界，也不能产生旧的 compatibility penalty。若要恢复逐边或带权的 nested theorem，仍需证明 time-expanded owner labels 的兼容性与 copy lineage 约束。
+(TE-PB) 不需要固定 grid，也不需要不同层的 owner map 形成单一 chain。它的代价是只给出总 volume 下界，不能分别给出每条边的 $V_\\ell$ 下界，也不能产生旧的 compatibility penalty。若要恢复逐边或带权的 nested theorem，仍需证明 time-expanded owner labels 的兼容性与 copy lineage 约束。
 
 这个 corollary 说明了当前研究的分界：
 
