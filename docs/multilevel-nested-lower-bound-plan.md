@@ -21,7 +21,7 @@
 
 ## 研究主线
 
-### 1. 把任意调度转成嵌套分区
+### 1. 先完成无容量 arbitrary-schedule theorem，再处理 phase
 
 令产品集合为
 \[
@@ -56,9 +56,9 @@ B_{\rm part,w}=\min_{\Pi_3\preceq\Pi_2\preceq\Pi_1}
 \]
 纯 aggregate volume 下所有 \(w\) 和数据类型成本相同，此式会 telescoping 到最细分区的边界；中间层只在带权、按层归一化或非对称成本下保留作用。
 
-**第一证明目标（partition boundary lemma）**：在“经典、一次产品计算、复制按通信计费、初始输入只有一次、最终 \(C\) 归属固定”的条件下，证明每个收费边的实际通信量不小于相应投影边界，减去明确写出的初始/最终项。这里必须区分：投影边界是组合量，通信量是事件量；两者之间的 owner-consistency 映射是证明核心。
+**已完成的第一证明目标（cut/Steiner lemma）**：在“经典、一次产品计算、复制按通信计费、初始输入只有一次、最终 \(C\) 归属固定”的条件下，固定三层 rooted hierarchy tree，对任意动态 owner labels 取每个数据项的需求叶集合。每条树边的 cut indicator 给出实际 word volume 下界；逐项 tree broadcast/reduction 达到它。正式陈述和有限枚举检查见 `docs/t3-arbitrary-schedule-steiner-theorem.md` 与 `experiments/check_t3_arbitrary_schedule_steiner.py`。
 
-### 2. 证明嵌套兼容与边可加性
+### 2. 把 phase/HBL 接到 cut/Steiner theorem
 
 需要证明三件事：
 
@@ -66,7 +66,7 @@ B_{\rm part,w}=\min_{\Pi_3\preceq\Pi_2\preceq\Pi_1}
 2. 同一矩阵元素在不同收费边上的迁移可以按边分别计数，不因“跨两层的一次物理传输”而被错误合并；
 3. 初始复制、最终归并和输出写回的项不会被投影边界重复计算。
 
-这个任意嵌套分区下界现在已经在静态 owner-consistent 模型中写成并证明。它不要求矩形 block；矩形 grid 只是一个可实现的受限子类。
+这个任意嵌套分区下界现在已经在静态 owner-consistent 模型中写成并证明；Steiner 版本进一步不要求矩形 block，矩形 grid 只是一个可实现的受限子类。
 
 ### 3. 判断矩形化的适用范围
 
@@ -99,7 +99,7 @@ dims=(2, 2, 3) levels=(2,4) arbitrary_min=18 rectangular_min=18
 
 在 $2\times2\times2$、$P=(8,4,2)$、边权 $(1,2,1)$ 下，任意 nested partition 的最优成本为 12，而矩形 grid chain 的最优成本为 16。这已经否定了非对称成本模型中的一般矩形化猜想；完整反例见 `docs/nested-partition-static-theorem.md`。
 
-### 4. 接回物理容量与多级尺度
+### 4. 接回物理容量与多级尺度（当前主缺口）
 
 组合分区定理成立后，再把每一级的容量和处理器数接回去。对第 \(\ell\) 层，至少要同时保留三种量：
 

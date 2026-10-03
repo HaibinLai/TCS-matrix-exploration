@@ -1673,4 +1673,21 @@ $$
 V_{\mathrm{grid}}\ge(c-1)mk+(a-1)kn+(b-1)mn.
 $$
 
-A matching broadcast/reduction schedule reaches this count in the corresponding communication topology. Componentwise-coarsened grids across the three charged edges therefore give a **T3-static** nested theorem. This is a real lower-bound result under explicit static ownership assumptions; arbitrary dynamic schedules remain outside the theorem.
+A matching broadcast/reduction schedule reaches this count in the corresponding communication topology. Componentwise-coarsened grids across the three charged edges therefore give a **T3-static** nested theorem. This is a real lower-bound result under explicit static ownership assumptions; the separate arbitrary-schedule tree theorem is recorded below.
+
+### Arbitrary-schedule memory-independent checkpoint (2026-10-03)
+
+The arbitrary-schedule gap is now split into two formally different parts.
+For a fixed three-level rooted hierarchy tree and unlimited local capacity,
+`docs/t3-arbitrary-schedule-steiner-theorem.md` proves a cut/Steiner lower bound
+for arbitrary leaf-side product assignments, including owner labels that change
+over time. A per-entry tree broadcast/reduction schedule attains the bound. Thus
+the memory-independent word-volume theorem no longer needs a single rectangular
+grid chain.
+
+The remaining gap is finite capacity: phase/HBL reload traffic must be coupled to
+the same copy-lineage trace without charging first loads twice. The safe current
+interface is a joint phase-trace envelope; simply adding the ownership and phase
+terms is not proved. `experiments/check_t3_arbitrary_schedule_steiner.py` checks
+the cut count against explicit tree paths on all nonempty demand subsets of a
+small three-level tree.

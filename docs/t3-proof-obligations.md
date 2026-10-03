@@ -1,6 +1,6 @@
 # T3 证明骨架与缺口
 
-这份文件区分已经证明的静态定理和仍待完成的 arbitrary-schedule 定理。旧的完整 affine-line sum 只作为矩形几何 proxy，不直接视为物理通信下界。
+这份文件区分已经证明的三类结果：静态 nested-partition 定理、固定层次树上任意叶端调度的 memory-independent Steiner 定理，以及仍待完成的 finite-capacity arbitrary-schedule 定理。旧的完整 affine-line sum 只作为矩形几何 proxy，不直接视为物理通信下界。
 
 ## 已证明目标：静态 nested-partition theorem
 
@@ -69,13 +69,15 @@ $$
 
 ## Arbitrary-schedule lifting target
 
-更强的目标是证明动态 owner labels 能诱导一个 time-expanded nested partition，或者给出不弱于它的带权 copy-lineage 下界。当前已证明的动态 corollary 只有
+`docs/t3-arbitrary-schedule-steiner-theorem.md` 已经给出一个不要求单一 componentwise-divisible grid chain 的结果：固定 rooted hierarchy tree 后，动态 owner labels 只需汇总成每个数据项的需求叶集合；每条 cut 上的 copy-lineage/partial-reduction indicator 给出加权 word-volume 下界，树形 broadcast/reduction 达到它。这个结果覆盖 arbitrary leaf assignment，但暂不加入容量和 phase reload。
+
+剩下的更强目标是把 Steiner cut 与 time-expanded phase trace 接起来。当前已证明的动态 corollary 只有
 
 $$
 ∑_{ℓ=1}^{L} V_ℓ ≥ ∂(Π_fine),
 $$
 
-它不提供逐边 chain envelope。要得到带容量的 T3-volume，还需要证明 phase/HBL 项与 nested-partition 增量项如何 charging，不能由 arrangement enumeration 单独推出。
+它不提供 finite-capacity 的逐边 phase envelope。要得到带容量的 T3-volume，还需要证明 phase/HBL 项与 cut/Steiner 项如何 charging，不能由 arrangement enumeration 单独推出。
 
 ## 必须继续检查的边界
 
@@ -94,10 +96,11 @@ $$
 - `check_t3_static_hierarchical_theorem.py`：验证三层逐边增量定理；
 - `check_nested_partition_weighted_counterexample.py`：证明非对称成本下矩形化反例；
 - `check_l_level_static_theorem.py`：验证静态 `L`-level 增量定理；
+- `check_t3_arbitrary_schedule_steiner.py`：枚举小树上的任意需求集合，验证 cut 下界与显式 broadcast/reduction 的边集计数一致；
 - `prove_2r_subfamily_empty_cell_certificates.py`：验证固定 divisor profile 的 arrangement cells。
 
-因此目前最重要的下一步是补出 phase/HBL 的物理尺度推导和 time-expanded owner lemma，而不是继续增加 `r` 的样本。
+因此目前最重要的下一步是补出 phase/HBL 的物理尺度推导和 time-expanded trace lemma，而不是继续增加 `r` 的样本。
 
 ## 状态边界
 
-`T3-static-vector` 和一般 nested-partition theorem 在明确的静态 owner-consistent、一次计算、计费 replication/reduction 模型中已经有 matching schedule。它们还不是 arbitrary-schedule T3-volume：动态 grid、免费初始复制、recomputation 和有限容量 phase coupling 仍未覆盖。
+`T3-static-vector`、一般 nested-partition theorem 和固定层次树上的 `T3-Steiner` 都已经有 matching schedule，分别覆盖静态兼容 grid、一般静态分区和无容量 arbitrary leaf assignment。免费初始复制、recomputation、拥塞，以及有限容量 phase coupling 仍未覆盖。

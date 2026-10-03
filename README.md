@@ -9,6 +9,7 @@ The divisor-profile arrangement remains a reproducible geometry case study, but 
 ## Contents
 
 - `docs/` — research notes, literature update, formal three-level model, static incremental theorem, general nested-partition theorem, hierarchical Steiner envelope, weighted rectangularization counterexample, arbitrary partition-boundary lemma, $L$-level/asymmetric-cost extension, phase/HBL multilevel interface, prior-work scope, symmetric-kernel scope, one-level recovery, nested-partition route, and proof obligations.
+- `docs/t3-arbitrary-schedule-steiner-theorem.md` — a cut/Steiner theorem for arbitrary leaf-side product assignments on a fixed three-level tree, with a matching broadcast/reduction schedule. It is the completed memory-independent arbitrary-schedule result; finite-capacity phase coupling remains open.
 - `docs/reports/` — agent reports and proof-gap notes.
 - `experiments/` — exact enumeration, symbolic certificates, scans, and counterexample searches.
 - `context/` — the current research handoff and explicit proof-status boundaries.
@@ -44,4 +45,4 @@ The large exact sweep is available as `experiments/check_2r_subfamily_large_exac
 
 ## Status boundary
 
-The repository records a complete tight theorem only for the explicitly stated static owner-consistent model. The arbitrary dynamic multilevel theorem is not finished: the remaining central question is whether a time-expanded owner schedule admits a compatible per-edge chain, or whether a small counterexample invalidates that strengthening. The 109 point-degenerate arrangement cases are secondary geometry evidence, not the proof target.
+The repository now records two distinct tight results. `docs/t3-static-hierarchical-theorem.md` proves the nested-grid incremental vector theorem, while `docs/t3-arbitrary-schedule-steiner-theorem.md` proves the memory-independent cut/Steiner bound for arbitrary leaf demand sets on a fixed hierarchy tree. The remaining central theorem is finite-capacity: a time-expanded phase trace must combine this cut bound with HBL reload traffic without double counting. The 109 point-degenerate arrangement cases are secondary geometry evidence, not the proof target.
