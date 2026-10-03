@@ -106,9 +106,9 @@ Q_w\ge N_{\rm inc,w}.
 \[
 \rho_c=c_\ell/c_{\ell+1}
 \]
-个细层 c 子组，因为细层的全部 (j)-blocks 都必须参与与该 A-entry 相关的产品。保留一个本地 copy 后，其余 (ho_c-1) 个子组至少各接收一个 word。
+个细层 c 子组，因为细层的全部 (j)-blocks 都必须参与与该 A-entry 相关的产品。保留一个本地 copy 后，其余 (\rho_c-1) 个子组至少各接收一个 word。
 
-所以每个粗 copy 至少产生 (ho_c-1) 次跨 (E_\ell) 的 word movement；对全部 (c_{\ell+1}) 个粗 copies 求和，得到
+所以每个粗 copy 至少产生 (\rho_c-1) 次跨 (E_\ell) 的 word movement；对全部 (c_{\ell+1}) 个粗 copies 求和，得到
 \[
 c_{\ell+1}(\rho_c-1)=c_\ell-c_{\ell+1}
 \]
@@ -145,7 +145,7 @@ V_\ell^{(C)}\ge(b_\ell-b_{\ell+1})mn.
 
 在每个粗层 owner group 内：
 
-1. 对每个 A copy 沿 c 子组建一棵 spanning tree，发送恰好 (ho_c-1) 个新 word；
+1. 对每个 A copy 沿 c 子组建一棵 spanning tree，发送恰好 (\rho_c-1) 个新 word；
 2. 对每个 B copy 沿 a 子组执行同样的 broadcast；
 3. 对每个 C-entry 的 (b_\ell) 个 partials 沿 b 子组做一棵归约森林，使最终保留 (b_{\ell+1}) 个 partials，恰好使用 (b_\ell-b_{\ell+1}) 次 word movement。
 
