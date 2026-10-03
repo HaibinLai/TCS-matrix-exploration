@@ -110,6 +110,7 @@ $$
 - `check_exact_trace_phase.py`：重放最短 pebble trace，检查实际 projection 与 HBL slack；
 - `exact_shared_cache_trace.py`：精确求解 \(2\times2\times2\) shared-cache operand 子模型；
 - `check_shared_operand_cut_lemma.py`：验证共享 B-entry 的受限 operand cut 下界与精确 trace；
+- `check_shared_operand_streaming_lemma.py`：验证 row-split shared-operand streaming 公式；
 - `prove_2r_subfamily_empty_cell_certificates.py`：验证固定 divisor profile 的 arrangement cells。
 
 因此目前最重要的下一步是对联合 trace 做小型 GEMM 的整数搜索，再补出 phase/HBL 的物理尺度推导和 matching trace，而不是继续增加 `r` 的样本。

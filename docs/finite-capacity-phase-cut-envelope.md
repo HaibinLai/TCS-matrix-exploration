@@ -394,6 +394,8 @@ shared capacity G=2:  8 arrivals
 
 四个 B-entry 在两个 owner 之间共享，因此一个 shared slot 便可流式复用全部 B-entry；继续增加容量没有收益。这个结果说明 shared-cache state 会改变 edge-arrival optimum，不能把 owner-private phase bound 简单相加。由于 C partial、最终写回和三层嵌套都被省略，这里是联合 trace 的精确子模型证据，不是完整 GEMM tight theorem。
 
+更一般的 row-split 公式见 shared-operand-streaming-lemma 文档：若有 \(R\) 个 owners、\(K\) 个 reduction indices 和 \(N\) 个 columns，则 \(G=0\) 时为 \(RK+RKN\)，而 \(G\ge1\) 时为 \(RK+KN\)。它把 exact trace 中的 B-row streaming 结构显式化。
+
 ## Restricted shared-operand cut lemma
 
 在上面的两个 owner row-split 子模型中，令 \(A_0,A_1\) 是各自只被一个 owner 使用的四个 A-entry，令 \(B\) 是两个 owner 都需要的四个 B-entry。parent 对每个 entry 只有一个 source copy，且不允许 recomputation。对 A-entry，每个 entry 至少跨 parent-child 边一次，所以 A 的下界是 4。
