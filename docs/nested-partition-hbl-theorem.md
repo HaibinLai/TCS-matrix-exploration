@@ -113,13 +113,13 @@ The first claim is closer to a general communication lower bound. The second is 
 \quad
 \Delta_\ell^C=X_C(\Pi_\ell)-X_C(\Pi_{\ell+1}),
 \]
-其中 (X_A,X_B,X_C) 是各分区的投影和。
+其中 $X_A,X_B,X_C$ 是各分区的投影和。
 
 因此：
 
 - 单边 partition-boundary lemma 仍然成立；
-- 静态多级定理应使用 (Delta_ell) 的 weighted envelope；
+- 静态多级定理应使用 $\Delta_\ell$ 的 weighted envelope；
 - 纯 aggregate volume 下增量会 telescoping 到最细 partition；
-- 非对称成本下，中间 partitions 仍然重要，而且矩形化已经有 (2\times2\times2) 反例。
+- 非对称成本下，中间 partitions 仍然重要，而且矩形化已经有 $2\times2\times2$ 反例。
 
-一般嵌套分区定理和反例见 `docs/nested-partition-static-theorem.md`。本文件保留早期 HBL 路线作为历史推导记录，不再把 (B_{\mathrm{part}}=\sum_\ell\partial(\Pi_\ell)) 当作最终多级通信定理。
+一般嵌套分区定理和反例见 `docs/nested-partition-static-theorem.md`。本文件保留早期 HBL 路线作为历史推导记录，不再把 $B_{\mathrm{part}}=\sum_\ell\partial(\Pi_\ell)$ 当作最终多级通信定理。
