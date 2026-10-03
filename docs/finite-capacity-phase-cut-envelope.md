@@ -380,6 +380,20 @@ M=3: 12,  M=4: 10,  M=5: 9,  M=6: 8.
 envelope 的一般 tightness 需要额外的整数/状态约束。
 
 
+## Exact shared-cache operand trace
+
+`experiments/exact_shared_cache_trace.py` 对一个按 \(i\) 分工的两个 owner \(2	imes2	imes2\) GEMM 做精确最短路。
+模型只保留 A/B operand traffic：每个 owner 的 local capacity 为 \(M=2\)，child group 的 shared cache 只存 B-entry；C 的计算和写回在这个诊断模型中免费。
+parent-to-owner direct arrival 和 parent-to-group shared arrival 各计一个 word，shared-to-local promotion 免费。结果为
+
+```text
+shared capacity G=0: 12 arrivals
+shared capacity G=1:  8 arrivals
+shared capacity G=2:  8 arrivals
+```
+
+四个 B-entry 在两个 owner 之间共享，因此一个 shared slot 便可流式复用全部 B-entry；继续增加容量没有收益。这个结果说明 shared-cache state 会改变 edge-arrival optimum，不能把 owner-private phase bound 简单相加。由于 C partial、最终写回和三层嵌套都被省略，这里是联合 trace 的精确子模型证据，不是完整 GEMM tight theorem。
+
 ## Typed projection envelope
 
 总 footprint \(M_r+M_g+B\) 会抹掉 A、B、C 三类数据的形状。为保留
