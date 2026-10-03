@@ -19,6 +19,8 @@ The divisor-profile arrangement remains a reproducible geometry case study, but 
 - `experiments/check_typed_projection_envelope.py` — checks the typed A/B/C projection relaxation.
 - `experiments/check_typed_projection_tightness.py` — checks the rectangular equality certificate for a typed phase.
 - `experiments/check_nested_partition_theorem.py` — exhaustively checks incidence increments on small nested partition chains.
+- `experiments/check_trace_state_transition.py` — checks resident-state closure for shared-cache arrivals.
+- `experiments/check_exact_trace_phase.py` — inspects projection slack in the exact tiny pebble trace.
 - `docs/reports/` — agent reports and proof-gap notes.
 - `experiments/` — exact enumeration, symbolic certificates, scans, and counterexample searches.
 - `context/` — the current research handoff and explicit proof-status boundaries.

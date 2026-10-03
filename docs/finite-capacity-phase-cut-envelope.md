@@ -45,7 +45,8 @@ F_{r,t}\cap F_{r,t'}=\varnothing\quad(t\ne t'),
 \[
 |K_{r,t}|\le M_r,
 \qquad
-K_{r,t+1}\subseteq K_{r,t}\cup U_{r,t},
+K_{r,t+1}\subseteq
+K_{r,t}\cup G_t\cup\operatorname{supp}(X_{e,t})\cup U_{r,t},
 \qquad
 |K_{r,t+1}|\le M_r,
 \tag{TR-2}
@@ -73,6 +74,12 @@ G_{t+1}\subseteq G_t\cup\operatorname{supp}(X_{e,t}),
 L_{r,t}\subseteq G_t\cup\operatorname{supp}(X_{e,t}).
 \tag{TR-5}
 \]
+
+这里的 \(K_{r,t+1}\) 转移显式包含本 phase 的 shared-cache entries 和
+edge arrivals；否则一个刚刚到达的 entry 不能在下一 phase 继续 resident，
+会把合法的 reuse trace 错误地排除。\(U_{r,t}\) 允许 phase 内新产生的
+partial/output entry 在下一 phase 被保留。若只研究输入 broadcast 边，可令
+\(U_{r,t}\) 中的 output entries 通过单独的 \(\rho_e\) 反向事件处理。
 
 若采用 owner-private 的标准 \(M_r\)-transfer phase 切分，还要求
 
@@ -355,6 +362,23 @@ M=3: 12,  M=4: 10,  M=5: 9,  M=6: 8.
 这不是完整 GEMM I/O 定理（模型省略最终写回并允许第一次 C 初始化免费），
 但它证明联合 envelope 需要 resident-state/partial-accumulation 信息，不能
 由两个现成标量下界的 `max` 自动闭合。
+
+`experiments/check_exact_trace_phase.py` 进一步重放 \(M=3\) 的最短 trace，
+按每个 phase 至多 3 次 load 切分为 4 个 phases。其 projection/work 摘要为
+
+```text
+(loads, work, (A, B, C), HBL)
+(3, 2, (1, 2, 2), 2.0000)
+(3, 3, (2, 3, 2), 3.4641)
+(3, 1, (1, 1, 1), 1.0000)
+(3, 2, (2, 1, 2), 2.0000)
+```
+
+第二个 phase 的实际 work 是 3，而 HBL 连续上界是
+\(\sqrt{2\cdot3\cdot2}\approx3.4641\)。因此即使 projection 计数正确，
+整数 product set 和 resident partial 的可实现性仍会造成严格 slack；typed
+envelope 的一般 tightness 需要额外的整数/状态约束。
+
 
 ## Typed projection envelope
 

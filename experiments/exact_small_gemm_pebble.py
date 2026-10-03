@@ -14,6 +14,11 @@ test whether the cut and phase lower bounds already determine the optimum.
 from heapq import heappop, heappush
 
 
+def popcount(value):
+    """Python 3.9-compatible integer population count."""
+    return bin(value).count("1")
+
+
 def make_products():
     # IDs are A entries, then B entries, then C entries.
     a = {(i, k): i * 2 + k for i in range(2) for k in range(2)}
@@ -58,7 +63,7 @@ def exact_min_loads(capacity):
                 continue
             if (resident >> c_id) & 1:
                 resident_options = (resident,)
-            elif resident.bit_count() < capacity:
+            elif popcount(resident) < capacity:
                 resident_options = (resident | (1 << c_id),)
             else:
                 resident_options = tuple(
@@ -77,7 +82,7 @@ def exact_min_loads(capacity):
         for data_id in range(data_count):
             if (resident >> data_id) & 1:
                 continue
-            if resident.bit_count() < capacity:
+            if popcount(resident) < capacity:
                 resident_options = (resident | (1 << data_id),)
             else:
                 resident_options = tuple(
