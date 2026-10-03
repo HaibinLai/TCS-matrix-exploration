@@ -278,6 +278,61 @@ M\left(\frac{W}{(2M/3)^{3/2}}-1\right).
 shared cache 的复用，但通常不是 tight；它只是 \(E\text{-TRACE}\) 的一个可
 计算 lower bound。
 
+### 均匀 owner 时的 phase-budget 优化引理
+
+若所有 child owners 都有相同容量 \(M_r=M\)，共有 \(R\) 个 owners，令
+\(A=M+M_g\)，并定义
+
+\[
+D=\frac{3\sqrt 3\,W_e}{R}.
+\]
+
+则 \(SC\text{-}2\) 给出
+
+\[
+\Phi(B)=\frac{R}{3\sqrt 3}(A+B)^{3/2},
+\]
+
+从而 phase 项化为
+
+\[
+H(B)=B\left(\frac{D}{(A+B)^{3/2}}-1\right)_+.
+\tag{SC-H}
+\]
+
+如果 \(D\le A^{3/2}\)，则 \(\sup_{B>0}H(B)=0\)。如果
+\(D>A^{3/2}\)，正区间内的唯一最大点 \(B^\star\) 满足
+
+\[
+D\left(A-\frac{B^\star}{2}\right)
+=(A+B^\star)^{5/2},
+\tag{SC-root}
+\]
+
+且
+
+\[
+0<B^\star<\min\{2A,D^{2/3}-A\}.
+\]
+
+证明：在 \(H(B)>0\) 的区间，
+
+\[
+H'(B)=D\left(A-\frac B2\right)(A+B)^{-5/2}-1,
+\]
+
+而
+
+\[
+H''(B)
+=-\frac{3D}{4}(4A-B)(A+B)^{-7/2}<0
+\]
+
+对 \(B<2A\) 成立。\(H'(0)>0\)，并且 \(H'(2A)=-1\)，所以在
+\((0,2A)\) 内恰有一个根；正区间的右端点处 \(H=0\)，不会产生更大值。
+因此 \(SC\text{-}HBL\) 在均匀 owner 模型中可以通过一个唯一的一维根求解，
+无需枚举 factor arrangement。这仍然是弱下界的优化，不是 tightness 证明。
+
 这个推导的假设必须保留：不允许 recomputation，所有 partial/output 的丢弃或
 写回都算 edge event，且 \(B\) 的 arrival 可以在 child group 内免费复制。若
 允许免费初始 replication、压缩或把 partial 留在未计费的第三层状态中，
