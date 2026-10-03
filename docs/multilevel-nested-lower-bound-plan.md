@@ -56,9 +56,9 @@ B_{\rm part}=\min_{\Pi_3\preceq\Pi_2\preceq\Pi_1}
 2. 同一矩阵元素在不同收费边上的迁移可以按边分别计数，不因“跨两层的一次物理传输”而被错误合并；
 3. 初始复制、最终归并和输出写回的项不会被投影边界重复计算。
 
-完成后得到的是一个**任意嵌套分区下界**。它仍然不等于当前的矩形 grid envelope，因为矩形分区只是所有分区的一小部分。
+这个任意嵌套分区下界现在已经在静态 owner-consistent 模型中写成并证明。它不要求矩形 block；矩形 grid 只是一个可实现的受限子类。
 
-### 3. 检验并证明矩形化，或寻找反例
+### 3. 判断矩形化的适用范围
 
 要回答的关键问题是：
 
@@ -87,6 +87,8 @@ dims=(2, 2, 3) levels=(2,4) arbitrary_min=18 rectangular_min=18
 ```
 
 对应脚本是 `experiments/check_nested_partition_223.py`。
+
+在 (2	imes2	imes2)、(P=(8,4,2))、边权 ((1,2,1)) 下，任意 nested partition 的最优成本为 12，而矩形 grid chain 的最优成本为 16。这已经否定了非对称成本模型中的一般矩形化猜想；完整反例见 `docs/nested-partition-static-theorem.md`。
 
 ### 4. 接回物理容量与多级尺度
 
