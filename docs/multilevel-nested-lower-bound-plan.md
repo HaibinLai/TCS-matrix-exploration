@@ -80,6 +80,14 @@ levels=(2, 4, 8) arbitrary_min=24 rectangular_min=24
 
 这只是有限证据，不能外推到一般维度。
 
+另外，\(2\times2\times3\) 的两层穷举（owner 数为 2 和 4）检查了 46,200 条嵌套链，得到
+
+```text
+dims=(2, 2, 3) levels=(2,4) arbitrary_min=18 rectangular_min=18
+```
+
+对应脚本是 `experiments/check_nested_partition_223.py`。
+
 ### 4. 接回物理容量与多级尺度
 
 组合分区定理成立后，再把每一级的容量和处理器数接回去。对第 \(\\ell\) 层，至少要同时保留三种量：
