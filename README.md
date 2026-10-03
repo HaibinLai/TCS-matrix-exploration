@@ -16,6 +16,7 @@ The divisor-profile arrangement remains a reproducible geometry case study, but 
 - `experiments/check_shared_cache_edge_accounting.py` — checks that shared child-cache reuse is counted once at the parent-child edge, while owner-private delivery is counted per owner.
 - `experiments/check_shared_cache_hbl_relaxation.py` — checks the explicit shared-cache HBL relaxation and its one-owner reduction.
 - `experiments/check_shared_cache_hbl_optimum.py` — verifies the homogeneous-owner unique phase-budget root.
+- `experiments/check_typed_projection_envelope.py` — checks the typed A/B/C projection relaxation.
 - `docs/reports/` — agent reports and proof-gap notes.
 - `experiments/` — exact enumeration, symbolic certificates, scans, and counterexample searches.
 - `context/` — the current research handoff and explicit proof-status boundaries.

@@ -355,3 +355,78 @@ M=3: 12,  M=4: 10,  M=5: 9,  M=6: 8.
 这不是完整 GEMM I/O 定理（模型省略最终写回并允许第一次 C 初始化免费），
 但它证明联合 envelope 需要 resident-state/partial-accumulation 信息，不能
 由两个现成标量下界的 `max` 自动闭合。
+
+## Typed projection envelope
+
+总 footprint \(M_r+M_g+B\) 会抹掉 A、B、C 三类数据的形状。为保留
+rectangular 和 asymmetric 信息，对一个 phase 写
+
+\[
+\mathbf m_r=(m_{r,A},m_{r,B},m_{r,C}),\qquad
+\mathbf g=(g_A,g_B,g_C),\qquad
+\mathbf b=(b_A,b_B,b_C),
+\]
+
+并要求
+
+\[
+\sum_X m_{r,X}\le M_r,\qquad
+\sum_X g_X\le M_g,\qquad
+\sum_X b_X\le B,
+\tag{TP-1}
+\]
+
+其中 \(X\in\{A,B,C\}\)。不允许 recomputation 且把 materialization/eviction
+计入 edge arrivals 时，每个 owner 的 projection sizes 满足
+
+\[
+|\pi_X(F_{r,t})|
+\le m_{r,X}+g_X+b_X,\qquad X\in\{A,B,C\}.
+\tag{TP-2}
+\]
+
+因此该 phase 的 work 满足
+
+\[
+|F_{r,t}|
+\le
+\psi_r(\mathbf m_r,\mathbf g,\mathbf b)
+:=
+\sqrt{
+(m_{r,A}+g_A+b_A)
+(m_{r,B}+g_B+b_B)
+(m_{r,C}+g_C+b_C)
+}.
+\tag{TP-3}
+\]
+
+定义 typed phase envelope：
+
+\[
+\Psi(B)=
+\max_{\substack{\mathbf b,\mathbf g,\mathbf m_r\\
+\text{satisfying }TP\text{-}1}}
+\sum_{r\in R_e}\psi_r(\mathbf m_r,\mathbf g,\mathbf b).
+\tag{TP-4}
+\]
+
+同一个 \(\mathbf g\) 出现在所有 owners 中，表示 shared cache 的 entries
+只被装入一次。于是 full-phase 计数给出
+
+\[
+\boxed{
+V_e\ge
+\sup_{B>0}
+B\left(\frac{W_e}{\Psi(B)}-1\right)_+.
+}
+\tag{TP-HBL}
+\]
+
+对 \(\psi_r\) 使用 AM--GM 会恢复上一节的 scalar \(SC\text{-}1\)--\(SC\text{-}3\)，
+因此 typed envelope 是一个不弱于 scalar relaxation 的 lower bound。它在
+A/B/C 容量或边成本不对称、以及 rectangular GEMM 中可以严格保留 projection
+shape；同时共享 \(\mathbf g\) 防止一个 shared B tile 被按 owner 重复计数。
+
+这仍然是 phase relaxation，不是 tightness 证明。下一步应研究 typed maximizer
+何时对应实际 blocked tile，以及何时 projection overlap 使 \(TP\text{-}4\)
+仍然过松。
