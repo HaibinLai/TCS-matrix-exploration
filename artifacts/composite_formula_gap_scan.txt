@@ -1,0 +1,21 @@
+counterexamples=1247 composite p<=50 prime q<=500
+p=49 q=101 boundary_ratio=11221/8039 candidate=11221/9349 gap=14699510/75156611 t=1/49 grids=(54, 18, 6) active=(6, 4, 3) nested=5
+p=49 q=103 boundary_ratio=22883/16376 candidate=22883/18995 gap=59930577/311062120 t=1/49 grids=(54, 18, 6) active=(6, 4, 3) nested=5
+p=45 q=97 boundary_ratio=2200/1571 candidate=75/62 gap=18575/97402 t=1/45 grids=(162, 54, 18) active=(9, 6, 4) nested=7
+p=49 q=107 boundary_ratio=23765/16972 candidate=23765/19589 gap=62193005/332464508 t=1/49 grids=(54, 18, 6) active=(6, 4, 3) nested=5
+p=49 q=109 boundary_ratio=12103/8635 candidate=12103/9943 gap=15830724/85857805 t=1/49 grids=(54, 18, 6) active=(6, 4, 3) nested=5
+p=45 q=101 boundary_ratio=2290/1633 candidate=3435/2819 gap=846155/4603427 t=1/45 grids=(162, 54, 18) active=(9, 6, 4) nested=7
+p=45 q=103 boundary_ratio=2335/1664 candidate=7005/5729 gap=1720895/9533056 t=1/45 grids=(162, 54, 18) active=(9, 6, 4) nested=7
+p=35 q=71 boundary_ratio=595/433 candidate=665/557 gap=43470/241181 t=1/35 grids=(81, 27, 9) active=(6, 4, 3) nested=6
+p=49 q=113 boundary_ratio=12544/8933 candidate=49/40 gap=64043/357320 t=1/49 grids=(54, 18, 6) active=(6, 4, 3) nested=5
+p=35 q=73 boundary_ratio=11620/8441 candidate=5810/4841 gap=7210210/40862881 t=1/35 grids=(81, 27, 9) active=(6, 4, 3) nested=6
+p=45 q=107 boundary_ratio=2425/1726 candidate=7275/5911 gap=1777525/10202386 t=1/45 grids=(162, 54, 18) active=(9, 6, 4) nested=7
+p=45 q=109 boundary_ratio=2470/1757 candidate=3705/3001 gap=902785/5272757 t=1/45 grids=(162, 54, 18) active=(9, 6, 4) nested=7
+p=35 q=79 boundary_ratio=12565/9083 candidate=12565/10321 gap=15555470/93745643 t=1/35 grids=(81, 27, 9) active=(6, 4, 3) nested=6
+p=45 q=113 boundary_ratio=2560/1819 candidate=960/773 gap=232640/1406087 t=1/45 grids=(162, 54, 18) active=(9, 6, 4) nested=7
+p=49 q=127 boundary_ratio=28175/19952 candidate=28175/22559 gap=73452225/450097168 t=1/49 grids=(54, 18, 6) active=(6, 4, 3) nested=5
+p=39 q=79 boundary_ratio=14001/10337 candidate=4667/3907 gap=6459128/40386659 t=1/39 grids=(81, 27, 9) active=(6, 4, 3) nested=6
+p=35 q=83 boundary_ratio=13195/9511 candidate=13195/10747 gap=16309020/102214717 t=1/35 grids=(81, 27, 9) active=(6, 4, 3) nested=6
+p=49 q=131 boundary_ratio=29057/20548 candidate=29057/23153 gap=75693485/475747844 t=1/49 grids=(54, 18, 6) active=(6, 4, 3) nested=5
+p=25 q=53 boundary_ratio=3025/2228 candidate=3025/2521 gap=886325/5616788 t=1/25 grids=(54, 18, 6) active=(6, 4, 3) nested=5
+p=27 q=59 boundary_ratio=807/592 candidate=2421/2005 gap=184803/1186960 t=1/27 grids=(90, 30, 10) active=(7, 5, 3) nested=6
