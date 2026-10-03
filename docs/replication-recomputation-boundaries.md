@@ -9,7 +9,7 @@ T3-Steiner 假定一个 A/B entry 只有一个 source。若允许免费初始复
 \[
 \operatorname{Forest}_H(S_0,R)=
 \min_{f:R\to S_0}
-\operatorname{cost}\!left(
+\operatorname{cost}\!\left(
 \bigcup_{r\in R}\operatorname{path}_H(r,f(r))
 \right)
 \tag{RF}

@@ -2,28 +2,38 @@
 
 ## 目的
 
-固定层次树上的 T3-Steiner 定理处理了 memory-independent word volume；经典
-HBL/phase 引理处理了一个 owner 在容量 (M) 下的 reload traffic。两者都
-会把同一个首次加载事件算进去，所以不能把两个标量下界未经证明直接相加。
+固定层次树上的 T3-Steiner 定理处理 memory-independent word volume；经典
+HBL/phase 引理处理一个 owner 在容量 \(M\) 下的 reload traffic。两者都
+可能把同一个首次加载事件算进去，所以不能把两个标量下界未经证明直接相加。
 
-本文件给出一个可用于三层 GEMM 的联合可行域。它不是把困难藏在一个新常数
-里，而是把每个 phase 的 product set、resident set、load set 和 cut 事件
-显式写出。任何真实执行都映射到该可行域，因此其最小通信量是一个合法的
-lower-bound envelope；若后续构造 schedule 达到该最小值，才得到 tightness。
+本文件给出一个可用于三层 GEMM 的联合可行域。它把边级到达事件、每个 phase
+的 product set、resident set、local load set 和 cut 事件显式写出。任何真实
+执行都映射到该可行域，因此其最小通信量是合法的 lower-bound envelope；若
+后续构造 schedule 达到该最小值，才得到 tightness。
 
 ## 单条层次边的 trace
 
-先固定一条从 parent 到 child hierarchy group 的收费边 (e)。在 child 侧
-有 owners (rin R_e)，每个 owner 的容量是 (M_e)。对 owner (r)，把
-执行切成 phases (t=1,ldots,T_r)。定义：
+固定一条从 parent 到 child hierarchy group 的收费边 \(e\)。child 侧有
+owners \(r\in R_e\)。边级多重集合 \(X_{e,t}\) 表示第 \(t\) 个边级时间
+窗口真正穿过 \(e\) 的 arrivals，\(|X_{e,t}|\) 按传输次数计费。同一 entry
+在 child group 内被多个 owner 复用时，只需在 \(X_{e,t}\) 中出现一次；若
+child group 没有共享 cache，可以把每个 owner 的窗口分开，此时 \(X\) 退化
+为 local load sets 的不交并。写 \(\operatorname{supp}(X_{e,t})\) 表示
+多重集合的 entry support。
 
-- (F_{r,t}subseteq [m]	imes[k]	imes[n])：该 phase 完成的 products；
-- (U_{r,t}=pi_A(F_{r,t})cuppi_B(F_{r,t})cuppi_C(F_{r,t}))：
+对 owner \(r\)，把执行切成 phases \(t=1,\ldots,T_r\)。定义：
+
+- \(F_{r,t}\subseteq [m]\times[k]\times[n]\)：该 phase 完成的 products；
+- \(U_{r,t}=\pi_A(F_{r,t})\cup\pi_B(F_{r,t})\cup\pi_C(F_{r,t})\)：
   phase 需要出现的 data entries；
-- (K_{r,t})：phase 开始时 resident 的 entries；
-- (L_{r,t}=U_{r,t}setminus K_{r,t})：该 phase 新加载的 entries。
+- \(K_{r,t}\)：phase 开始时 owner-local resident entries；
+- \(L_{r,t}=U_{r,t}\setminus K_{r,t}\)：该 phase 的 local missing entries；
+- \(G_t\)：边 \(e\) 的 child-side shared cache（没有共享 cache 时取空集）。
 
-trace 必须满足：
+在单份初始输入模型中取 \(K_{r,1}=G_1=\varnothing\)；允许非空初始状态只会
+把该 envelope 放宽到 free-initial-replication 模型。
+
+trace 必须满足
 
 \[
 F_{r,t}\cap F_{r,t'}=\varnothing\quad(t\ne t'),
@@ -33,63 +43,74 @@ F_{r,t}\cap F_{r,t'}=\varnothing\quad(t\ne t'),
 \]
 
 \[
-|K_{r,t}|\le M_e,
+|K_{r,t}|\le M_r,
 \qquad
 K_{r,t+1}\subseteq K_{r,t}\cup U_{r,t},
 \qquad
-|K_{r,t+1}|\le M_e,
+|K_{r,t+1}|\le M_r,
 \tag{TR-2}
 \]
 
-以及每个 (F_{r,t}) 的三投影满足
-
 \[
-|F_{r,t}|le
-\sqrt{|\pi_A(F_{r,t})|,|\pi_B(F_{r,t})|,|\pi_C(F_{r,t})|}.
+G_{t+1}\subseteq G_t\cup\operatorname{supp}(X_{e,t}),
+\qquad
+|G_t|\le M_e^{\rm group},
 \tag{TR-3}
 \]
 
-若 phase 采用标准的 (M_e)-transfer 切分，还要求
+以及每个 phase 的 HBL 投影约束
 
 \[
-|L_{r,t}|\le M_e,
+|F_{r,t}|
+\le
+\sqrt{|\pi_A(F_{r,t})|\,|\pi_B(F_{r,t})|\,|\pi_C(F_{r,t})|}.
 \tag{TR-4}
 \]
 
-并可把除最后一个 phase 外的 phase 规范化为恰好 (M_e) 次新加载。
-
-对每个 entry (d)，设 (b_e(d)) 是 T3-Steiner cut indicator：当 (d) 的
-唯一 source 在 parent 侧而 child 侧某个 owner 需要它时，(b_e(d)=1)。
-copy-creation 约束为
+每个 local missing entry 必须来自 shared cache 或边级到达：
 
 \[
-\sum_{r,t}\mathbf 1[d\in L_{r,t}]\ge b_e(d).
+L_{r,t}\subseteq G_t\cup\operatorname{supp}(X_{e,t}).
 \tag{TR-5}
 \]
 
-如果 (d) 在 child 侧由多个 owner 使用，(TR-5) 还可按 child subtree
-分支分别写出；这就是 Steiner cut 的逐边版本。C 的 partial reduction 另加
-一个 (\rho_e(c)\) 事件，要求每个被 cut 分开的 source/sink 至少有一个
-aggregate crossing (e)。
+若采用 owner-private 的标准 \(M_r\)-transfer phase 切分，还要求
+
+\[
+|L_{r,t}|\le M_r.
+\tag{TR-6}
+\]
+
+对每个 entry \(d\)，设 \(b_e(d)\) 是 T3-Steiner cut indicator：当 \(d\)
+的唯一 source 在 parent 侧而 child 侧某个 owner 需要它时，\(b_e(d)=1\)。
+copy-creation 约束为
+
+\[
+\sum_t\mathbf 1[d\in\operatorname{supp}(X_{e,t})]\ge b_e(d).
+\tag{TR-7}
+\]
+
+C 的 partial reduction 另加 \(\rho_e(c)\) 事件，要求每个被 cut 分开的
+source/sink 至少有一个 aggregate crossing \(e\)。
 
 ## 联合 envelope
 
-令 (mathfrak T_e(M_e)) 是满足 (TR-1)--(TR-5) 以及 C-reduction 约束的
-所有 phase traces。定义
+令 \(\mathfrak T_e(M_e)\) 是满足 \(TR\text{-}1\)--\(TR\text{-}7\) 以及
+C-reduction 约束的所有 phase traces。定义
 
 \[
 \mathcal E_e(M_e)=
 \inf_{\mathcal T\in\mathfrak T_e(M_e)}
 \left[
-\sum_{r,t}|L_{r,t}|
- +\sum_{c\in C}\rho_e(c)
+\sum_t|X_{e,t}|
++\sum_{c\in C}\rho_e(c)
 \right].
 \tag{E-TRACE}
 \]
 
-这里的第一项是跨 (e) 的 load/reload word volume；若某个 trace 使用了
-child 内部共享 cache，应把首次到达 parent-child group 的事件放进同一个
-entry 的 (L) 集合，而不把一次物理传输复制计成多个 leaf load。
+目标函数只统计真正跨过边 \(e\) 的 arrivals，因而不会把一次
+parent→group 传输重复算成多个 leaf loads。local phase constraints 仍会限制
+\(X\) 能否提供足够的复用；这正是共享 cache 下尚需求解的耦合部分。
 
 ### 联合下界定理
 
@@ -101,20 +122,21 @@ entry 的 (L) 集合，而不把一次物理传输复制计成多个 leaf load�
 \tag{E-LB}
 \]
 
-证明只是 trace projection：把真实执行每个 phase 的 products、开始时的
-resident entries、首次/重复加载和 partial reduction 记录下来，即得到
-(TR-1)--(TR-5)；真实跨边传输数正好不小于目标函数。\(\square\)
+证明是 trace projection：把真实执行每个 phase 的 products、local resident
+entries、shared-cache state、边级 arrivals、首次/重复加载和 partial
+reduction 记录下来，即得到 \(TR\text{-}1\)--\(TR\text{-}7\)；真实跨边传输
+数不小于目标函数。\(\square\)
 
-这个定理的价值在于：ownership 与 phase 不是两个需要事后相加的数字，而是
-同一个可行域中的事件。它适用于任意叶端 product assignment；不要求矩形
-grid chain。若容量趋于无限且每个 owner 只需一个 phase，(L) 只剩首次
-到达事件，(E-TRACE) 退化为 T3-Steiner 的 copy-lineage 计数。
+这个定理的价值在于：ownership 与 phase 是同一个可行域中的事件，而不是两个
+需要事后相加的数字。它适用于任意叶端 product assignment，不要求矩形 grid
+chain。若容量趋于无限且每个 owner 只需一个边级 arrival，\(X\) 只剩首次
+到达事件，\(E\text{-}TRACE\) 退化为 T3-Steiner 的 copy-lineage 计数。
 
 ## 两个可立即推出的弱化下界
 
 ### Cut 项
 
-从 (TR-5) 直接得到
+从 \(TR\text{-}7\) 直接得到
 
 \[
 \mathcal E_e(M_e)
@@ -124,42 +146,49 @@ B_e=\sum_d b_e(d)+\sum_c\rho_e(c).
 \tag{E-CUT}
 \]
 
-这正是 memory-independent Steiner boundary。
+这正是 memory-independent Steiner boundary，适用于 shared-cache 和
+owner-private 两种情况。
 
-### Phase/HBL 项
+### Owner-private phase/HBL 项
 
-若 owner (r) 完成 (W_r) 个 products，容量为 (M_e)，由 (TR-2)--(TR-4)
-和 Loomis--Whitney/HBL，单个 phase 至多完成
+若边的 child owners 没有共享 cache，且每个 owner \(r\) 完成 \(W_r\) 个
+products、容量为 \(M_r\)，由 \(TR\text{-}2\)、\(TR\text{-}4\) 和
+Loomis--Whitney/HBL，单个 phase 至多完成
 
 \[
-f(M_e)=\left(\frac{2M_e}{3}\right)^{3/2}
+f(M_r)=\left(\frac{2M_r}{3}\right)^{3/2}
 \]
 
-个 products。标准 full-phase 计数给出
+个 products。标准 full-phase 计数给出 owner-private 特例
 
 \[
-\mathcal E_e(M_e)
-\ge
+V_e\ge
+\sum_{r\in R_e}
 \left(
- f(M_e)^{-1}\sum_r W_r-|R_e|
-\right)M_e,
-\tag{E-PHASE}
+ f(M_r)^{-1}W_r-1
+\right)_+M_r,
+\tag{E-PHASE-private}
 \]
 
-并与非负性取最大值。整数 phase 版本可把右侧替换为
+或在均匀容量 \(M_r=M\) 时
 
 \[
-M_e\left(\sum_r\left\lceil W_r/f(M_e)\right\rceil-|R_e|\right)_+.
+V_e\ge
+\left(
+ f(M)^{-1}\sum_r W_r-|R_e|
+\right)_+M.
 \]
 
-这里 phase 项仍然包含首次加载；这是它与 (B_e) 重叠的根源。
+共享 cache 时不能把这个式子直接套到每个 leaf 再求和；共享 arrivals 必须
+通过 \(E\text{-}TRACE\) 的 \(X_{e,t}\) 和 \(G_t\) 共同优化。这是当前真正
+的 finite-capacity multilevel gap。
 
 ## 为什么不能直接相加
 
-取一个抽象但合法的 phase 事件记录：(M=6)，每个 phase 的 HBL work
-上限取 (f=8)，总 work (W=27)，首次到达事件数 (B=6)。一个标准
-full-phase trace 可以有 4 个 phases、总 load volume (Q=18)；连续 HBL
-式给出 (Q_{\rm phase}=6(27/8-1)=57/4)。于是
+取一个抽象但合法的 owner-private phase 事件记录：\(M=6\)，每个 phase 的
+HBL work 上限取 \(f=8\)，总 work \(W=27\)，首次到达事件数 \(B=6\)。
+一个标准 full-phase trace 可以有 4 个 phases、总 load volume \(Q=18\)；
+连续 HBL 式给出 \(Q_{\rm phase}=6(27/8-1)=57/4\)。于是
 
 \[
 \max\{B,Q_{\rm phase}\}=57/4<18,
@@ -173,18 +202,19 @@ B+Q_{\rm phase}=81/4>18.
 
 ## 下一步的可证伪目标
 
-1. 在 (2\times2\times2) 和 (3\times3\times3) GEMM 上枚举合法小 trace，
-   计算 (E-TRACE) 的整数最优值；
-2. 比较它与 (max(E\text{-CUT},E\text{-PHASE})) 的差距，判断是否存在
-   非平凡 overlap correction；
-3. 对标准 blocked/SUMMA schedule 记录同一 trace，测试何时达到 (E-TRACE)；
-4. 若某个阶段需要 child 内共享 cache，扩展 trace 的 copy-lineage 状态，
+1. 在 \(2\times2\times2\) 和 \(3\times3\times3\) GEMM 上枚举合法小 trace，
+   计算 \(E\text{-TRACE}\) 的整数最优值；
+2. 比较它与 \(\max(E\text{-CUT},E\text{-PHASE-private})\) 的差距，判断
+   是否存在非平凡 overlap correction；
+3. 对标准 blocked/SUMMA schedule 记录同一 trace，测试何时达到
+   \(E\text{-TRACE}\)；
+4. 若某个阶段需要 child 内共享 cache，扩展 \(G_t\) 的 copy-lineage 状态，
    而不是把每个 leaf 的 reload 简单相加；
-5. 在此基础上再定义 (L)-level、非对称 (M_\ell) 和 weighted-edge
+5. 在此基础上再定义 \(L\)-level、非对称 \(M_\ell\) 和 weighted-edge
    版本。
 
-在完成第 1--3 步以前，不把 (E-TRACE) 简化成一个新的闭式常数，也不声称
-有限容量下已经得到三层 tight theorem。
+在完成第 1--3 步以前，不把 \(E\text{-TRACE}\) 简化成一个新的闭式常数，也不
+声称有限容量下已经得到三层 tight theorem。
 
 ## 第一条精确小实例
 
