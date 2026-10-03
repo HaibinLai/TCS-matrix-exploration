@@ -39,15 +39,15 @@ Q ≥ M(R-1)
 \tag{PHASE-HBL}
 $$
 
-常数来自这里明确采用的 `M transfers per phase` 约定；改变 phase 预算只会改变常数，不改变 (W/\sqrt M) 的量纲。
+常数来自这里明确采用的 `M transfers per phase` 约定；改变 phase 预算只会改变常数，不改变 $W/\sqrt M$ 的量纲。
 
-对 (P) 个 owner，若第 (r) 个 owner 完成 (W_r) 个 products、容量为 (M_r)，逐 owner 相加得到
+对 $P$ 个 owner，若第 $r$ 个 owner 完成 $W_r$ 个 products、容量为 $M_r$，逐 owner 相加得到
 
 $$
 Q ≥ (3/2)^{3/2}\sum_r W_r/√{M_r}-\sum_r M_r.
 $$
 
-在均衡 (W_r=W/P)、均匀容量 (M_r=M) 时，主项为
+在均衡 $W_r=W/P$、均匀容量 $M_r=M$ 时，主项为
 
 $$
 Q = Ω\left(W/(P√M)\right).
@@ -77,14 +77,14 @@ $$
 
 ## 多级接口目标
 
-对第 (ell) 条边，设其 owner partition 增量为
+对第 $\ell$ 条边，设其 owner partition 增量为
 
 $$
 \Delta_\ell^{\rm owner}=
 \Delta_\ell^A+\Delta_\ell^B+\Delta_\ell^C.
 $$
 
-设这一层的 phase 容量为 (M_\ell)，并令 (W_{\ell,r}) 是对应 owner 在该层负责的 products 数。一个可验证的目标形式是
+设这一层的 phase 容量为 $M_\ell$，并令 $W_{\ell,r}$ 是对应 owner 在该层负责的 products 数。一个可验证的目标形式是
 
 $$
 V_\ell ≥
