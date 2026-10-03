@@ -33,18 +33,28 @@ T=[m]\times[k]\times[n].
 \]
 对每个收费边，记录该边两侧 owner group 在时间窗口内共同负责的产品集合，得到分区 \(\Pi_\ell\)。动态调度需要用 time-expanded owner labels 处理：同一个标量乘法只能计入一个产品 owner，但输入复制和部分和迁移必须按边计费。
 
-目标定义是
+单个分区的投影边界是
 \[
 \partial(\Pi)=\sum_{S\in\Pi}
   (|\pi_A(S)|+|\pi_B(S)|+|\pi_C(S)|)
-  -(mk+kn+mn),
+  -(mk+kn+mn).
 \]
-以及嵌套分区优化
+但多级边不能简单地把 \(\partial(\Pi_\ell)\) 相加，因为粗层已有的副本会在细层边界中再次出现。正确的嵌套分区目标使用投影和的逐边增量：
 \[
-B_{\rm part}=\min_{\Pi_3\preceq\Pi_2\preceq\Pi_1}
-\sum_{\ell=1}^{3} w_\ell\partial(\Pi_\ell),
+X_A(\Pi)=\sum_{S\in\Pi}|\pi_A(S)|,
+\quad X_B(\Pi)=\sum_{S\in\Pi}|\pi_B(S)|,
+\quad X_C(\Pi)=\sum_{S\in\Pi}|\pi_C(S)|.
 \]
-其中 \(w_\ell\) 是边的 word/message 成本权重。若成本是纯 word volume，取 \(w_\ell=1\)；若每层字宽、消息启动或同步成本不同，保留权重。
+令 \(\Pi_4=\{T\}\)，则带权目标是
+\[
+B_{\rm part,w}=\min_{\Pi_3\preceq\Pi_2\preceq\Pi_1}
+\sum_{\ell=1}^{3} w_\ell\left[
+\alpha_{\ell,A}(X_A(\Pi_\ell)-X_A(\Pi_{\ell+1}))
++\alpha_{\ell,B}(X_B(\Pi_\ell)-X_B(\Pi_{\ell+1}))
++\beta_{\ell,C}(X_C(\Pi_\ell)-X_C(\Pi_{\ell+1}))
+\right].
+\]
+纯 aggregate volume 下所有 \(w\) 和数据类型成本相同，此式会 telescoping 到最细分区的边界；中间层只在带权、按层归一化或非对称成本下保留作用。
 
 **第一证明目标（partition boundary lemma）**：在“经典、一次产品计算、复制按通信计费、初始输入只有一次、最终 \(C\) 归属固定”的条件下，证明每个收费边的实际通信量不小于相应投影边界，减去明确写出的初始/最终项。这里必须区分：投影边界是组合量，通信量是事件量；两者之间的 owner-consistency 映射是证明核心。
 
@@ -66,10 +76,9 @@ B_{\rm part}=\min_{\Pi_3\preceq\Pi_2\preceq\Pi_1}
 
 研究顺序：
 
-- 先枚举 \(2\times2\times2\)、\(2\times2\times3\) 和 \(3\times3\times3\) 的小规模分区；
-- 对每个层数和 owner 数比较任意分区、嵌套分区、矩形 grid 分区的最优值；
-- 若发现反例，优先给出最小反例并把普适目标改写为 \(B_{\rm part}\)；
-- 若长期未发现反例，再尝试用离散压缩（compression/shifting）、投影不增原理或三维等周不等式证明矩形化。
+- 对纯 aggregate volume，记录 telescoping 后的最细 partition 问题；
+- 对带权/非对称成本，比较一般 nested partition 与矩形 grid；
+- 若发现反例，使用一般 nested-partition envelope，而不是把矩形化写成普适定理。
 
 目前 \(2\times2\times2\) 的结果是：
 
@@ -107,9 +116,9 @@ Q_\ell\ge
 \[
 \Pi_L\preceq\cdots\preceq\Pi_1,
 \qquad
-Q\ge \sum_{\ell=1}^{L} w_\ell\,\partial(\Pi_\ell)-\text{boundary terms},
+Q\ge \sum_{\ell=1}^{L} w_\ell\,\Delta(\Pi_\ell,\Pi_{\ell+1}),
 \]
-仍需单独验证任意调度版本。
+其中 \(\Delta\) 是投影 incidence 的逐边增量；任意动态调度版本仍需单独验证。
 
 ### 5. 构造匹配算法
 
@@ -125,16 +134,17 @@ Q\ge \sum_{\ell=1}^{L} w_\ell\,\partial(\Pi_\ell)-\text{boundary terms},
 
 ## 判定标准与停止条件
 
-- **成功定理**：任意调度 \(\Rightarrow\) 嵌套分区下界；矩形化成立；再有调度达到同阶或同 leading constant 的上界。
-- **有价值的部分结果**：任意分区下界成立，但矩形化失败；这会给出更一般的 \(B_{\rm part}\) 定理和一个明确的非矩形反例。
+- **成功定理**：任意调度 \(\Rightarrow\) 嵌套分区增量下界，并有相同模型下的 matching schedule。
+- **当前已知边界**：静态 nested partition 已达到上述目标；非对称成本下矩形化失败，因此不能把 factor-chain envelope 当作普适对象。
 - **应停止外推的情况**：如果动态复制、重算或自由初始复制让 partition boundary 无法对应通信事件，就把结论限定为静态 owner-consistent、一次产品计算模型，并把动态模型列为独立问题。
+
 
 ## 近期执行顺序
 
-1. 完成 \(2\times2\times3\) 的一层/三层穷举，寻找最小非矩形反例；
-2. 写出并审查 partition boundary lemma 的事件级证明；
-3. 给出三层静态模型的正式 corollary，并与现有矩形 grid 公式逐项对齐；
-4. 只在前三步没有逻辑缺口时，尝试一般矩形化猜想；
-5. 最后再扩展到 \(L\) 层和非对称成本。
+1. 完成动态 time-expanded owner lemma，明确逐边 chain 何时成立；
+2. 将有限容量 phase/HBL 项与 nested-partition 增量项对齐；
+3. 分别处理 free replication 和 recomputation；
+4. 在一般 nested partition 基础上再研究 SYRK/SYMM 等结构化 kernel；
+5. 只把矩形 factor arrangement 作为可实现特例和实验平台。
 
 仓库中的每一个脚本都应输出模型假设和检查结论，避免把有限穷举误写成普适证明，喵。
