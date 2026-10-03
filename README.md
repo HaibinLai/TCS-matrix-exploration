@@ -32,6 +32,7 @@ python3 experiments/check_2r_subfamily_eight_chain_bound.py
 /opt/miniconda3/bin/python experiments/check_static_grid_ownership.py
 /opt/miniconda3/bin/python experiments/check_t3_static_hierarchical_theorem.py
 /opt/miniconda3/bin/python experiments/check_l_level_static_theorem.py
+/opt/miniconda3/bin/python experiments/check_phase_hbl_constant.py
 /opt/miniconda3/bin/python experiments/check_small_partition_boundary.py
 ```
 
