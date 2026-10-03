@@ -113,3 +113,51 @@ $$
 - SYRK/SYMM 共享 operand 的额外复用。
 
 下一步应先在 (2\times2\times2\) 或小型矩形 GEMM 上建立事件级 overlap 计数；若出现同一 transfer 同时承担两类下界的反例，则最终定理必须采用 `max` 或显式 overlap correction，而不能写成简单加法。
+
+## 统一的 phase-partition 候选对象
+
+对固定 owner partition `Π_ℓ`，令 `F_ℓ` 是其每个 owner 内的 phase parts 细分，满足
+
+$$
+F_ℓ \preceq Π_ℓ.
+$$
+
+每个 phase part `F` 有投影 footprint
+
+$$
+\phi(F)=|\pi_A(F)|+|\pi_B(F)|+|\pi_C(F)|.
+$$
+
+HBL 给出 phase-work 约束
+
+$$
+|F|\le
+\sqrt{|\pi_A(F)|,|\pi_B(F)|,|\pi_C(F)|},
+$$
+
+而容量/phase budget 给出对 `φ(F)` 或各投影的上界。真正的联合下界应优化
+
+$$
+\mathcal E_ℓ(M_ℓ)=
+\inf_{\text{合法 phase traces }\mathcal F_ℓ}
+\{
+\text{跨 phase 的 projection reload volume}
+\},
+$$
+
+其中“合法”同时要求：
+
+1. `F_ℓ` 细分固定 owner partition；
+2. 每个 phase 满足容量 footprint；
+3. 同一 entry 在相邻 phases 间保留或重新加载的事件被明确计数；
+4. owner-creation、reload 和 final-reduction 的事件不能重复收费。
+
+若能证明
+
+$$
+V_ℓ\ge \mathcal E_ℓ(M_ℓ)
+$$
+
+并给出 matching trace，就会自动包含 owner boundary 和 phase/HBL 两个极限，而不需要事后把两个可能重叠的下界相加。
+
+目前 `PHASE-HBL` 是这个候选对象在单 owner、均匀容量、粗粒度 phase budget 下的解析下界；`NP-vector` 是它在单 phase/无限容量极限下的 projection-incidence 下界。多级 tight theorem 的下一步是把二者放进同一个 phase-trace 定义中。
