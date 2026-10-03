@@ -160,3 +160,43 @@ $$
 并给出 matching trace，就会自动包含 owner boundary 和 phase/HBL 两个极限，而不需要事后把两个可能重叠的下界相加。
 
 目前 `PHASE-HBL` 是这个候选对象在单 owner、均匀容量、粗粒度 phase budget 下的解析下界；`NP-vector` 是它在单 phase/无限容量极限下的 projection-incidence 下界。多级 tight theorem 的下一步是把二者放进同一个 phase-trace 定义中。
+
+## Trace lemma：为什么 phase 项不能直接相加
+
+对一个固定 owner `r` 的 phase trace，令 `U_{r,t}` 是第 `t` 个 phase 使用的 data words 集合，令 `K_{r,t}` 是 phase 开始时已经保留在 fast memory 中的 words。所有必须发生的加载满足
+
+$$
+L_{r,t}=U_{r,t}\setminus K_{r,t},
+\qquad
+Q_r=\sum_t |L_{r,t}|.
+$$
+
+把它拆成
+
+$$
+Q_r^{\rm first}=|L_{r,1}|,
+\qquad
+Q_r^{\rm reload}=\sum_{t>1}|L_{r,t}|.
+$$
+
+对固定 owner partition，projection-boundary charging 只能保证
+
+$$
+Q_r^{\rm owner}\le Q_r^{\rm first}+\text{other cross-owner events}.
+$$
+
+而标准 phase/HBL 证明得到的是总 phase traffic 的下界
+
+$$
+Q_r^{\rm phase}\le Q_r^{\rm first}+Q_r^{\rm reload},
+$$
+
+因为它把首个 phase 的装入也算进 phase budget。于是
+
+$$
+Q_r^{\rm owner}+Q_r^{\rm phase}
+$$
+
+可能对同一批 `L_{r,1}` words 计数两次；这不是技术细节，而是两个下界使用了不同的事件投影。只有把 `Q_first` 和 `Q_reload` 放进同一个 trace optimization，才能决定它们是否还有额外的不重叠项。
+
+这个 lemma 不依赖具体矩阵尺寸；它说明最终联合定理必须优化完整 trace，或者明确把 phase bound 改写成只对 reload events 的下界。后者通常会弱于标准 HBL 项，因此需要单独证明何时仍然 tight。
