@@ -83,7 +83,7 @@ g_3\preceq g_2\preceq g_1.
 
 ## 4. 通信计费
 
-v0 只计 word volume。第 $\ell$ 层的 $V_\ell$ 是穿过该层边界的 word 数；一个 word 穿过多级边界时，在每条实际边上分别计数。总 volume 是
+v0 只计 word volume。我们把三条收费边界编号为：慢存储↔$P_3$、$P_3$↔$P_2$、$P_2$↔$P_1$。第 $\ell$ 条边的 $V_\ell$ 是穿过该边界的 word 数；一个 word 穿过多级边界时，在每条实际边上分别计数。总 volume 是
 
 \[
 Q_{\mathrm{vol}}=\sum_{\ell=1}^{3}V_\ell.
