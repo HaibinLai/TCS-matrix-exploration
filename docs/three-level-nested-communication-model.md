@@ -98,7 +98,7 @@ Q_{\alpha\beta}=
 
 但在没有先证明 volume bound 以后，不把联合目标称为 tight。
 
-## 5. 两个 envelope
+## 5. 两个几何 envelope 与一个可证明的增量 envelope
 
 如果每层可以独立选 grid，归一化的 independent envelope 是
 
@@ -109,41 +109,53 @@ I(z,y)=
 \Lambda_\ell(g;z,y).
 \]
 
-如果三个层次必须使用同一条兼容 chain，nested envelope 是
+如果三个层次必须使用同一条兼容 chain，旧代码使用的 nested geometry proxy 是
 
 \[
-N(z,y)=
+N_{\rm full}(z,y)=
 \min_{(g_1,g_2,g_3)\in\mathcal C(P^*)}
 \sum_{\ell=1}^{3}\Lambda_\ell(g_\ell;z,y).
 \]
 
-当前实验中的 $N/I$ 是 **compatibility penalty**：它衡量层间兼容性相对于“每层各自最优”的额外开销。它本身还不是完整 machine-model lower bound，除非第 6 节的 lifting lemma 被证明。
+$N_{\rm full}/I$ 衡量层间兼容性的几何惩罚，但若粗层已经拥有多个副本，直接相加完整 line 会重复计算部分复制。因此它不能直接被称为物理通信下界。
 
-## 6. 三层 lower-bound theorem 的正式目标
-
-### Theorem T3-volume（目标）
-
-在第 1 节的 classical/no-recomputation/static-grid 假设和第 4 节的 edge-volume 计费下，存在可由 HBL/phase-partition 证明的尺度因子 $\kappa_\ell$，使得任意合法 GEMM schedule $\mathcal A$ 满足
+在静态 owner-consistent 模型中，应使用逐边增量量。令 $g_4=(1,1,1)$，定义
 
 \[
-Q_{\mathrm{vol}}(\mathcal A;z,y)
-\ge
-N(z,y)-O(n^2).
+\delta_\ell(g_\ell,g_{\ell+1};m,k,n)=
+\frac{(c_\ell-c_{\ell+1})mk
+ +(a_\ell-a_{\ell+1})kn
+ +(b_\ell-b_{\ell+1})mn}{P_\ell}.
 \]
 
-这里的 $O(n^2)$ 允许输入输出 materialization 的边界项；主项应与 $n^3$ 级计算量同阶。
-
-### Theorem T3-tight（更强目标）
-
-在同一模型下，对每个实现 $N(z,y)$ 的 active chain，存在静态 blocked SUMMA/2.5D/3D schedule，使
+对边权 $w_\ell\ge0$，可证明的静态 envelope 是
 
 \[
-Q_{\mathrm{vol}}(\mathcal A_{\mathrm{chain}};z,y)
-\le
-N(z,y)+O(n^2).
+N_{\rm inc,w}=
+\min_{g_3\preceq g_2\preceq g_1}
+\sum_{\ell=1}^{3}w_\ell\delta_\ell.
 \]
 
-T3-volume 是 lower bound；T3-tight 还要求 matching construction。只有两者都成立，才能称为 tight multilevel communication theorem。
+## 6. 三层 lower-bound theorem 的状态
+
+### Theorem T3-static-vector（已证明的受限版本）
+
+在 classical、一次产品计算、固定 owner-consistent nested grids、单份初始输入、计费 replication/reduction 和树形 broadcast/reduction 的模型中，对每条边都有
+
+\[
+V_\ell\ge
+(c_\ell-c_\ell+1)mk
+ +(a_\ell-a_\ell+1)kn
+ +(b_\ell-b_\ell+1)mn.
+\]
+
+这里下标应理解为 $c_{\ell+1},a_{\ell+1},b_{\ell+1}$；完整定义和证明见 `docs/t3-static-hierarchical-theorem.md`。对应的增量 envelope 有匹配 schedule，因此在这个静态模型中是 tight。
+
+### Theorem T3-volume（仍待证明的更强目标）
+
+要把 T3-static-vector 推广到任意 GEMM schedule，还需要证明 time-expanded owner labels 能诱导嵌套分区，并处理动态 replication、动态 grid、有限容量和 recomputation。目标形式应是对任意调度得到一个向量或带权的 $N_{\rm inc}$ 下界，而不是无条件使用 $N_{\rm full}$。
+
+因此，当前 25-line arrangement 仍然是几何工具；真正的三层定理是逐边增量计数加 matching schedule。只有任意调度 lifting lemma 也完成后，才能把它称为一般的 multilevel communication theorem。
 
 ## 7. 与当前 25-line 实验的关系
 
