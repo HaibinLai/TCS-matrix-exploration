@@ -216,6 +216,73 @@ B+Q_{\rm phase}=81/4>18.
 在完成第 1--3 步以前，不把 \(E\text{-TRACE}\) 简化成一个新的闭式常数，也不
 声称有限容量下已经得到三层 tight theorem。
 
+## 共享 child cache 的显式 HBL 弱化下界
+
+虽然一般的 \(E\text{-TRACE}\) 仍需要求解，但可以先得到一个不重复计费的显式
+弱化。取一个边级 phase budget \(B>0\)，把执行切成除最后一个 phase 外每个
+phase 恰好发生 \(B\) 次 arrival 的窗口。设 child group shared cache 容量为
+\(M_g\)，owner \(r\) 的 local capacity 为 \(M_r\)。在任一窗口中，owner
+\(r\) 能看到的三类 entries 来自 phase 开始时的 local state、shared cache
+和本窗口的边 arrivals。因此在把输出 materialization/eviction 也计入 edge
+事件的模型中，
+
+\[
+|\pi_A(F_{r,t})|+|\pi_B(F_{r,t})|+|\pi_C(F_{r,t})|
+\le M_r+M_g+B.
+\tag{SC-1}
+\]
+
+这是一个放宽式约束：同一批 \(B\) arrivals 可以被所有 owners 免费复用。由
+HBL 与 AM--GM，窗口内 owner \(r\) 至多完成
+
+\[
+\varphi_r(B)=\left(\frac{M_r+M_g+B}{3}\right)^{3/2}
+\]
+
+个 products，所有 owners 的总 work 至多为
+
+\[
+\Phi(B)=\sum_{r\in R_e}\varphi_r(B).
+\tag{SC-2}
+\]
+
+若 child group 总共负责 \(W_e=\sum_r W_r\) 个 products，phase 数至少为
+\(W_e/\Phi(B)\)。除最后一个 phase 外每个 phase 有 \(B\) 次 edge arrivals，
+所以得到
+
+\[
+V_e\ge
+B\left(\frac{W_e}{\Phi(B)}-1\right)_+.
+\tag{SC-3}
+\]
+
+对任意 \(B>0\) 都成立，因此可与 cut 项取最大值：
+
+\[
+\boxed{
+V_e\ge
+\max\left\{
+B_e,\,
+\sup_{B>0}B\left(\frac{W_e}{\Phi(B)}-1\right)_+
+\right\}.
+}
+\tag{SC-HBL}
+\]
+
+当 \(R_e=1\)、\(M_g=0\)、\(M_r=M\)、\(B=M\) 时，\(SC\text{-}3\) 退化为
+标准 one-owner phase 的量纲
+\[
+M\left(\frac{W}{(2M/3)^{3/2}}-1\right).
+\]
+当 \(M_g>0\) 或多个 owners 共享 arrivals 时，\(SC\text{-}HBL\) 明确反映了
+shared cache 的复用，但通常不是 tight；它只是 \(E\text{-TRACE}\) 的一个可
+计算 lower bound。
+
+这个推导的假设必须保留：不允许 recomputation，所有 partial/output 的丢弃或
+写回都算 edge event，且 \(B\) 的 arrival 可以在 child group 内免费复制。若
+允许免费初始 replication、压缩或把 partial 留在未计费的第三层状态中，
+\(SC\text{-}1\) 的可见 entries 集合必须重新定义，不能直接套用。
+
 ## 第一条精确小实例
 
 `experiments/exact_small_gemm_pebble.py` 对一个单 owner 的
