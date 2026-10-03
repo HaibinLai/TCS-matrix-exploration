@@ -105,10 +105,11 @@ $$
 - `check_shared_cache_hbl_optimum.py`：验证均匀 owner 情形下 phase budget 的唯一根；
 - `check_typed_projection_envelope.py`：验证 typed A/B/C projection relaxation；
 - `check_typed_projection_tightness.py`：验证笛卡尔 typed phase 的 HBL 取等条件；
-- `check_nested_partition_theorem.py`：穷举 \(2	imes2	imes2\) nested partition chains，验证逐 entry incidence 增量与 broadcast/reduction forest 计数；
+- `check_nested_partition_theorem.py`：穷举 \(2\times2\times2\) nested partition chains，验证逐 entry incidence 增量与 broadcast/reduction forest 计数；
 - `check_trace_state_transition.py`：检查联合 trace 中 shared/arrival 到 resident state 的转移闭合；
 - `check_exact_trace_phase.py`：重放最短 pebble trace，检查实际 projection 与 HBL slack；
-- `exact_shared_cache_trace.py`：精确求解 \(2	imes2	imes2\) shared-cache operand 子模型；
+- `exact_shared_cache_trace.py`：精确求解 \(2\times2\times2\) shared-cache operand 子模型；
+- `check_shared_operand_cut_lemma.py`：验证共享 B-entry 的受限 operand cut 下界与精确 trace；
 - `prove_2r_subfamily_empty_cell_certificates.py`：验证固定 divisor profile 的 arrangement cells。
 
 因此目前最重要的下一步是对联合 trace 做小型 GEMM 的整数搜索，再补出 phase/HBL 的物理尺度推导和 matching trace，而不是继续增加 `r` 的样本。

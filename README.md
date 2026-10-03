@@ -22,6 +22,7 @@ The divisor-profile arrangement remains a reproducible geometry case study, but 
 - `experiments/check_trace_state_transition.py` — checks resident-state closure for shared-cache arrivals.
 - `experiments/check_exact_trace_phase.py` — inspects projection slack in the exact tiny pebble trace.
 - `experiments/exact_shared_cache_trace.py` — exact shared-cache operand trace for a two-owner tiny GEMM.
+- `experiments/check_shared_operand_cut_lemma.py` — checks the restricted shared-operand cut lower bound.
 - `docs/reports/` — agent reports and proof-gap notes.
 - `experiments/` — exact enumeration, symbolic certificates, scans, and counterexample searches.
 - `context/` — the current research handoff and explicit proof-status boundaries.

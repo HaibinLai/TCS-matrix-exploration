@@ -382,7 +382,7 @@ envelope 的一般 tightness 需要额外的整数/状态约束。
 
 ## Exact shared-cache operand trace
 
-`experiments/exact_shared_cache_trace.py` 对一个按 \(i\) 分工的两个 owner \(2	imes2	imes2\) GEMM 做精确最短路。
+`experiments/exact_shared_cache_trace.py` 对一个按 \(i\) 分工的两个 owner \(2\timesimes2\timesimes2\) GEMM 做精确最短路。
 模型只保留 A/B operand traffic：每个 owner 的 local capacity 为 \(M=2\)，child group 的 shared cache 只存 B-entry；C 的计算和写回在这个诊断模型中免费。
 parent-to-owner direct arrival 和 parent-to-group shared arrival 各计一个 word，shared-to-local promotion 免费。结果为
 
@@ -393,6 +393,27 @@ shared capacity G=2:  8 arrivals
 ```
 
 四个 B-entry 在两个 owner 之间共享，因此一个 shared slot 便可流式复用全部 B-entry；继续增加容量没有收益。这个结果说明 shared-cache state 会改变 edge-arrival optimum，不能把 owner-private phase bound 简单相加。由于 C partial、最终写回和三层嵌套都被省略，这里是联合 trace 的精确子模型证据，不是完整 GEMM tight theorem。
+
+## Restricted shared-operand cut lemma
+
+在上面的两个 owner row-split 子模型中，令 \(A_0,A_1\) 是各自只被一个 owner 使用的四个 A-entry，令 \(B\) 是两个 owner 都需要的四个 B-entry。parent 对每个 entry 只有一个 source copy，且不允许 recomputation。对 A-entry，每个 entry 至少跨 parent-child 边一次，所以 A 的下界是 4。
+
+若 shared capacity \(G=0\)，每个 B-entry 必须分别送到两个 owner，因此
+
+\[
+Q_{AB}\ge 4+2\cdot4=12.
+\]
+
+若 \(G\ge1\)，每个 B-entry 可以先跨边一次，再在 child group 内复用，所以
+
+\[
+Q_{AB}\ge 4+4=8.
+    \tag{SC-AB}
+\]
+
+当每个 owner 的 local capacity 为 2 时，逐个保持一个 A-entry 和一个 shared B-entry 的流式 schedule 分别达到 12 和 8；因此这个受限模型中 \(SC\text{-}AB\) 是 tight。精确搜索和下界核对由 `experiments/check_shared_operand_cut_lemma.py` 完成。
+
+这个 lemma 的作用是说明 shared-cache 状态本身可以进入下界公式；它没有 处理 C partial、最终归约或多个层次，因此只能作为完整 E-TRACE theorem 的 operand-only 子定理。
 
 ## Typed projection envelope
 
