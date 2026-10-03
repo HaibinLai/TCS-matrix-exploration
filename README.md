@@ -11,6 +11,7 @@ The divisor-profile arrangement remains a reproducible geometry case study, but 
 - `docs/` — research notes, literature update, formal three-level model, static incremental theorem, general nested-partition theorem, hierarchical Steiner envelope, weighted rectangularization counterexample, arbitrary partition-boundary lemma, $L$-level/asymmetric-cost extension, phase/HBL multilevel interface, prior-work scope, symmetric-kernel scope, one-level recovery, nested-partition route, and proof obligations.
 - `docs/t3-arbitrary-schedule-steiner-theorem.md` — a cut/Steiner theorem for arbitrary leaf-side product assignments on a fixed three-level tree, with a matching broadcast/reduction schedule. It is the completed memory-independent arbitrary-schedule result; finite-capacity phase coupling remains open.
 - `docs/finite-capacity-phase-cut-envelope.md` — the joint trace definition for coupling cut/ownership events with finite-capacity HBL phases, including the explicit overlap obstruction to naive addition.
+- `docs/replication-recomputation-boundaries.md` — the multi-source Steiner forest theorem for free initial replication and the event-based boundary for recomputation.
 - `experiments/exact_small_gemm_pebble.py` — an exact finite-state (2\times2\times2) read/partial-load search; it is deliberately a toy model and reports its omitted final-write/initial-C conventions.
 - `docs/reports/` — agent reports and proof-gap notes.
 - `experiments/` — exact enumeration, symbolic certificates, scans, and counterexample searches.

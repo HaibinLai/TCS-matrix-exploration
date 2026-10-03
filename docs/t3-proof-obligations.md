@@ -99,10 +99,15 @@ $$
 - `check_t3_arbitrary_schedule_steiner.py`：枚举小树上的任意需求集合，验证 cut 下界与显式 broadcast/reduction 的边集计数一致；
 - `check_finite_capacity_joint_envelope.py`：验证联合 trace 中首次加载与 phase 项的重叠算术；
 - `exact_small_gemm_pebble.py`：在明确省略最终写回的 toy pebble 模型中，精确搜索 (2\times2\times2) 的 resident-state optimum；
+- `check_free_replication_forest.py`：验证多 source 免费复制下的最小共享路径 forest；
 - `prove_2r_subfamily_empty_cell_certificates.py`：验证固定 divisor profile 的 arrangement cells。
 
 因此目前最重要的下一步是对联合 trace 做小型 GEMM 的整数搜索，再补出 phase/HBL 的物理尺度推导和 matching trace，而不是继续增加 `r` 的样本。
 
 ## 状态边界
 
-`T3-static-vector`、一般 nested-partition theorem 和固定层次树上的 `T3-Steiner` 都已经有 matching schedule，分别覆盖静态兼容 grid、一般静态分区和无容量 arbitrary leaf assignment。免费初始复制、recomputation、拥塞，以及有限容量 phase coupling 仍未覆盖。
+`T3-static-vector`、一般 nested-partition theorem、固定层次树上的 `T3-Steiner`
+以及多 source 免费复制的 Steiner-forest 版本都已经有 matching schedule，分别
+覆盖静态兼容 grid、一般静态分区、无容量 arbitrary leaf assignment 和固定
+initial-source sets。recomputation 的 event-assignment 优化、拥塞，以及有限
+容量 phase coupling 仍未覆盖。

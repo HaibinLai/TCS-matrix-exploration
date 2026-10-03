@@ -147,7 +147,7 @@ Q\ge \sum_{\ell=1}^{L} w_\ell\,\Delta(\Pi_\ell,\Pi_{\ell+1}),
 
 1. 对 `E-TRACE` 做 (2^3) 和 (3^3) GEMM 的整数 trace 搜索，测出 overlap correction；
 2. 将有限容量 phase/HBL 项与 nested-partition/Steiner 增量项对齐；
-3. 分别处理 free replication 和 recomputation；
+3. 用多源 Steiner forest 处理 free replication，再对 recomputation 优化 compute-event assignment；
 4. 在一般 nested partition 基础上再研究 SYRK/SYMM 等结构化 kernel；
 5. 只把矩形 factor arrangement 作为可实现特例和实验平台。
 

@@ -1704,3 +1704,9 @@ read/partial-load conventions, a (2\times2\times2) one-owner GEMM needs
 12 loads at (M=3), while the separate cut/phase terms give only
 \(\max(8,5.49\ldots)=8\). This is evidence for a resident-state correction,
 not a claim about the full standard I/O model because final writes are omitted.
+
+Free initial replication is now separated in
+`docs/replication-recomputation-boundaries.md`: its exact memory-independent
+object is a multi-source Steiner forest, while recomputation must be modeled as a
+multiset of compute events with total work (W'\ge mkn). The repository does not
+yet claim a closed-form finite-capacity theorem for either extension.
