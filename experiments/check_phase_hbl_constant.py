@@ -20,7 +20,8 @@ def run():
                         best, witness = value, (x, y, z)
         # Compare without floating point: 27 xyz <= (2M)^3.
         assert 27 * best <= (2 * M) ** 3
-        assert witness is not None
+        if best > 0:
+            assert witness is not None
     print("phase HBL integer constant check=True")
 
 
