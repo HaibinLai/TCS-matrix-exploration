@@ -97,7 +97,7 @@ dims=(2, 2, 3) levels=(2,4) arbitrary_min=18 rectangular_min=18
 
 对应脚本是 `experiments/check_nested_partition_223.py`。
 
-在 (2	imes2	imes2)、(P=(8,4,2))、边权 ((1,2,1)) 下，任意 nested partition 的最优成本为 12，而矩形 grid chain 的最优成本为 16。这已经否定了非对称成本模型中的一般矩形化猜想；完整反例见 `docs/nested-partition-static-theorem.md`。
+在 $2\times2\times2$、$P=(8,4,2)$、边权 $(1,2,1)$ 下，任意 nested partition 的最优成本为 12，而矩形 grid chain 的最优成本为 16。这已经否定了非对称成本模型中的一般矩形化猜想；完整反例见 `docs/nested-partition-static-theorem.md`。
 
 ### 4. 接回物理容量与多级尺度
 
