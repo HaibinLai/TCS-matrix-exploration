@@ -3686,3 +3686,8 @@ retreat CPU 又逐个枚举了固定 profile 的所有 cell：对每个整数 $2
 新增 `work/check_one_level_recovery.py`。它把归一化 line 还原为矩形 GEMM 的
 \(\lambda_{m,k,n}=mk/(ab)+mn/(ac)+kn/(bc)\)，并对 cubic square cases
 \(P=1,8,27,64,125\) 精确验证 \(3n^2/P^{2/3}\)。这一步只确认 affine geometry 和量纲，尚未替代 HBL/phase-partition lower-bound proof。
+
+## 117. Static-grid ownership theorem
+
+新增 `outputs/static-grid-ownership-lemma.md` 和 `work/check_static_grid_ownership.py`。在固定 block ownership、单份初始输入、每个 product 一次计算的模型中，直接计数得到
+\(V_{grid}\ge(c-1)mk+(a-1)kn+(b-1)mn\)，并由标准 broadcast/reduction schedule 达到。对 componentwise-coarsened 三层 grids 求和，得到受限的 T3-static theorem；动态 grid、免费复制和 recomputation 仍是开放边界。

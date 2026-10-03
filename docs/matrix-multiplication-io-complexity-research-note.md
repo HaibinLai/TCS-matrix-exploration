@@ -1664,3 +1664,13 @@ $$
 $$
 
 For a square problem and cubic grid this is (3n^2/P^{2/3}), so the current affine geometry recovers the standard one-level memory-independent scaling. This is a units/geometry check only; the HBL lower-bound proof and finite-memory term are still separate obligations.
+
+### Static-grid theorem checkpoint
+
+`outputs/static-grid-ownership-lemma.md` isolates a restricted theorem that is actually provable by direct ownership counting. For a fixed (a\times b\times c) block grid with one-copy inputs and one-time products,
+
+$$
+V_{\mathrm{grid}}\ge(c-1)mk+(a-1)kn+(b-1)mn.
+$$
+
+A matching broadcast/reduction schedule reaches this count in the corresponding communication topology. Componentwise-coarsened grids across the three charged edges therefore give a **T3-static** nested theorem. This is a real lower-bound result under explicit static ownership assumptions; arbitrary dynamic schedules remain outside the theorem.
