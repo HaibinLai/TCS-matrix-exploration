@@ -103,3 +103,21 @@ bound；2024 年已有单层 symmetric HBL 和 matching algorithms。因此真�
 若三个问题都得到肯定，就继续证明有限容量 restricted three-level theorem；若
 第二或第三个答案是否定，就把结果明确定位为 trace-envelope/hardness theorem，
 而不是继续寻找不存在的统一闭式公式。
+
+## 新的 exact 证据
+
+受限的 shared-B/C trace 已经给出一个可复现的有限容量结果：在
+(2\times2\times2) row-split GEMM 中，每个 B-entry 只通过 shared cache 到达
+一次、禁止 direct B load 时，0/1 shortest-path enumeration 对所有 24 个 arrival
+permutations 给出
+
+$$
+Q_{M=3}=14,\qquad Q_{M=4}=12.
+$$
+
+其中 12 是四个 A arrivals、四个 shared-B arrivals 和四个最终 C writes 的
+静态 baseline；(M=3) 的额外两次 traffic 来自 C accumulator 的 store/reload。
+这个结果已写入 `docs/finite-capacity-restricted-shared-c-trace.md`。它把
+“overlap correction”从抽象问题变成了一个具体的两-word penalty，但 direct-B
+和 repeated-shared-B 仍可能改变 unrestricted optimum，因此下一步是证明它们
+不能把 14 降到 13，或构造一个 13 的反例。
