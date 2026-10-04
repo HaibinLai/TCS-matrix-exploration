@@ -14,6 +14,7 @@ The divisor-profile arrangement remains a reproducible geometry case study, but 
 - `docs/finite-capacity-phase-cut-envelope.md` — the joint trace definition for coupling cut/ownership events with finite-capacity HBL phases, including the explicit overlap obstruction to naive addition and the event-aware recomputation extension.
 - `docs/replication-recomputation-boundaries.md` — the multi-source Steiner forest theorem for free initial replication and the event-based boundary for recomputation.
 - `docs/recomputation-event-tradeoff.md` — separates product-owner reassignment from true recomputation and formulates the joint event/forest/phase optimization still needed for a finite-capacity theorem.
+- `docs/syrk-nested-incidence-extension.md` — a restricted SYRK static nested-incidence theorem using symmetry-aware union projections; SYMM remains an open extension.
 - `experiments/exact_small_gemm_pebble.py` — an exact finite-state (2\times2\times2) read/partial-load search; it is deliberately a toy model and reports its omitted final-write/initial-C conventions.
 - `experiments/check_shared_cache_edge_accounting.py` — checks that shared child-cache reuse is counted once at the parent-child edge, while owner-private delivery is counted per owner.
 - `experiments/check_shared_cache_hbl_relaxation.py` — checks the explicit shared-cache HBL relaxation and its one-owner reduction.
@@ -31,6 +32,7 @@ The divisor-profile arrangement remains a reproducible geometry case study, but 
 - `experiments/check_three_level_nested_main_theorem.py` — checks the consolidated incidence, one-level rectangular, and weighted formulas.
 - `experiments/check_l_level_row_k_block_gemm.py` — checks the fresh-arrival L-level rectangular theorem.
 - `experiments/check_recomputation_event_tradeoff.py` — checks the weighted toy boundary between owner reassignment and duplicated compute events.
+- `experiments/check_syrk_nested_incidence.py` — checks the restricted SYRK union-projection incidence theorem.
 - `docs/reports/` — agent reports and proof-gap notes.
 - `experiments/` — exact enumeration, symbolic certificates, scans, and counterexample searches.
 - `context/` — the current research handoff and explicit proof-status boundaries.
