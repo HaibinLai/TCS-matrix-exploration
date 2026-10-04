@@ -123,6 +123,7 @@ $$
 - `check_three_level_nested_main_theorem.py`：验证主定理的 incidence increments、一层恢复、矩形和加权公式；
 - `check_l_level_row_k_block_gemm.py`：验证 fresh-arrival row--k-block 的 \(L\)-level rectangular/asymmetric theorem；
 - `check_finite_capacity_row_split_gemm.py`：验证含 C accumulation/final write-back 的有限容量 row-split tight 子定理；
+- `check_restricted_shared_c_full_trace.py`：精确枚举 (2\times2\times2) 两 owner、(G=1) shared-B、每个 B 只到达一次且含 C write-back 的 restricted trace；
 - `check_recomputation_event_tradeoff.py`：检查固定 product assignment、owner reassignment 与 duplicated event 的 weighted toy trade-off；
 - `check_syrk_nested_incidence.py`：验证受限 SYRK union-projection 的三层 incidence increments；
 - `prove_2r_subfamily_empty_cell_certificates.py`：验证固定 divisor profile 的 arrangement cells。
