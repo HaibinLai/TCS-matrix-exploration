@@ -9,7 +9,7 @@ the finite-trace notes.
 Let \(A,B,C\in\mathbb F^{2\times2}\). There are two owners, each with local
 capacity \(M=3\). Every product \((i,k,j)\) is computed exactly once, and its
 owner may be chosen dynamically. The root has one copy of each \(A/B\) entry;
-there is a one-slot shared \(B\) cache. A single root-to-shared arrival of
+there is a shared \(B\) cache with capacity at least one. A single root-to-shared arrival of
 \(B_{kj}\) can be promoted for free to either owner. There is no free initial
 replication and no recomputation.
 
@@ -71,11 +71,11 @@ so \(b_{AC}\le1\). By (CUBE), the owner assignment is constant on each row:
   Since the shared \(B\) source still needs four distinct arrivals,
   \(Q\ge5+5+4=14\).
 
-Both cases contradict \(Q\le13\). The row-split schedule with \(G=1\) and
+Both cases contradict \(Q\le13\). The row-split schedule with \(G=1\) (and hence with any \(G\ge1\)) and
 \(M=3\) attains \(Q=14\), so
 
 \[
-\boxed{Q^*_{\rm dynamic\ owner}(2\times2\times2,M=3,G=1)=14}
+\boxed{Q^*_{\rm dynamic\ owner}(2\times2\times2,M=3,G\ge1)=14}
 \]
 
 under the stated one-copy/no-recomputation/root-\(C\) model.
