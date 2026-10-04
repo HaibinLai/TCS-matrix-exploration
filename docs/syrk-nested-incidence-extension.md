@@ -82,9 +82,9 @@ Q_w\ge\sum_\ell
 
 ### 证明
 
-固定 A-entry \(a_{rq}\)。设它在 fine partition 中出现 \(d_f) 次，在
-coarse partition 中出现 \(d_c) 次。每个 fine part 都必须能读取该 entry；
-coarse side 已有的 \(d_c\) 个 copies 至多覆盖 \(d_c) 个 incidences，因而
+固定 A-entry \(a_{rq}\)。设它在 fine partition 中出现 \(d_f\) 次，在
+coarse partition 中出现 \(d_c\) 次。每个 fine part 都必须能读取该 entry；
+coarse side 已有的 \(d_c\) 个 copies 至多覆盖 \(d_c\) 个 incidences，因而
 至少需要 \(d_f-d_c\) 个新增 A words。对所有 \((r,q)\) 求和就是
 (SYRK-A)。这里使用 union projection 正好处理了 diagonal product 的单份
 A-entry 和 off-diagonal product 的两个不同 row entries。
@@ -106,3 +106,42 @@ nested hierarchy，并允许每条 edge 使用独立的非对称 word 权重。�
 后续若要处理 SYMM，需要为 symmetric B-entry 定义类似的 alias-aware union
 projection；若要处理 SYR2K，还需要区分两个输入矩阵的 source sets。普通 GEMM
 中的三投影公式不能直接替代这些定义。
+
+## SYMM 的同一静态模板
+
+对 SYMM，取
+
+\[
+A\in\mathbb F^{m\times k},\qquad
+B=B^{\mathsf T}\in\mathbb F^{k\times k},\qquad
+C=AB.
+\]
+
+令 \(T_{\rm symm}=[m]\times[k]\times[k]\)，并把对称 B-entry 用无序 pair
+索引。对 \(S\subseteq T_{\rm symm}\) 定义
+
+\[
+\pi_A^{\rm symm}(S)=\{(i,q):(i,q,j)\in S\},
+\]
+
+\[
+\pi_B^{\rm symm}(S)=
+\{\{q,j\}:(i,q,j)\in S\},
+\qquad
+\pi_C^{\rm symm}(S)=\{(i,j):(i,q,j)\in S\}.
+\]
+
+因此 \(B_{qj}\) 与 \(B_{jq}\) 在同一个 unordered-pair projection 中只算
+一次。对任意 nested partitions，完全相同的 incidence proof 给出
+
+\[
+V_\ell^A\ge\Delta_\ell^{A,\rm symm},\qquad
+V_\ell^B\ge\Delta_\ell^{B,\rm symm},\qquad
+V_\ell^C\ge\Delta_\ell^{C,\rm symm},
+\]
+
+其中每个 \(\Delta\) 是相应 projection sum 的相邻层差值。树形 A/B
+broadcast 与 C reduction 达到该 bound。这个 SYMM 结论仍然只是在固定静态
+nested owner、single-source、no-recomputation word-volume 模型中的结构性
+扩展；它没有覆盖 2024 工作中的 symmetric HBL 常数、有限 local memory 或
+latency 最优性。

@@ -39,8 +39,8 @@ SYRK/SYR2K/SYMM 的 iteration space 不是普通 GEMM 的完整立方体。对�
 
 当前已先完成一个受限的 SYRK 静态起点：`docs/syrk-nested-incidence-extension.md` 用
 union projection 处理对角项和非对角项的 A-entry 重叠，并证明 rooted nested
-edge 上的 incidence lower bound 与树形 schedule tight。它仍然没有加入 finite-memory
-phase 项，也不等于已经完成 SYMM。
+edge 上的 incidence lower bound 与树形 schedule tight。文档末尾还给出 SYMM 的
+unordered-pair projection 模板；两者都没有加入 finite-memory phase 项。
 
 因此，普通 GEMM 的 projection-boundary lemma 不能直接复制到 SYRK/SYMM。正确扩展顺序应是：
 
