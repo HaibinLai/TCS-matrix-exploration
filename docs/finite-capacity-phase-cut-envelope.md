@@ -567,3 +567,38 @@ j=\sqrt{\frac{x_Bx_C}{x_A}}
 
 是否都是整数。若不是，HBL 仍给出合法下界，但这个 phase 不可能由单个
 整数笛卡尔 tile 直接达到，只能通过多个 tile 或带 remainder 的构造逼近。
+
+## Event-aware extension (definition, not yet a closed form)
+
+若允许 recomputation，应把 `TR-1` 改为 product multiplicity 约束。对每个
+\(u\in T\) 定义
+
+\[
+N_u=\sum_{r,t}{\bf 1}[u\in F_{r,t}],\qquad N_u\ge1,
+\]
+
+而不再要求不同 owner/phase 的 \(F_{r,t}\) 两两不交。总 arithmetic work
+变成
+
+\[
+W'(\mathcal F)=\sum_{u\in T}N_u.
+\]
+
+每个 \(F_{r,t}\) 仍需满足 HBL 投影约束；A/B demand、C partial source 以及
+`TR-5` 的 resident closure 都从所有 events 的并集导出。于是可以定义
+
+\[
+\mathcal E^{\rm event}_e(M_e)=
+\inf_{\mathcal T,\,\mathcal F}
+\left[\sum_t|X_{e,t}|+\sum_c\rho_e(c)\right],
+\]
+
+其中 \(\mathcal F\) 满足 \(N_u\ge1\)，\(\mathcal T\) 满足容量、resident 和
+phase 约束。真实的 recomputation execution 仍然映射到该可行域，因此
+\(V_e\ge\mathcal E^{\rm event}_e(M_e)\) 是合法的；但一般情形下尚不知道
+该 infimum 的闭式值，也没有 matching schedule。
+
+这个定义同时记录两个相反方向：重复 event 可能增加 \(W'\) 和 operand reload，
+也可能让多个 C partial 在同一个 owner 汇合，减少某条昂贵边上的
+\(\rho_e\)。因此任何把 recomputation 仅表示成额外 work penalty，或仅从
+C-reduction 项中扣除固定收益的公式，都没有覆盖联合优化问题。

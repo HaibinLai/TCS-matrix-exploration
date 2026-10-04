@@ -71,7 +71,7 @@ $$
 
 `docs/t3-arbitrary-schedule-steiner-theorem.md` 已经给出一个不要求单一 componentwise-divisible grid chain 的结果：固定 rooted hierarchy tree 后，动态 owner labels 只需汇总成每个数据项的需求叶集合；每条 cut 上的 copy-lineage/partial-reduction indicator 给出加权 word-volume 下界，树形 broadcast/reduction 达到它。这个结果覆盖 arbitrary leaf assignment，但暂不加入容量和 phase reload。
 
-剩下的更强目标是把 Steiner cut 与 time-expanded phase trace 接起来。`docs/finite-capacity-phase-cut-envelope.md` 已把这个接口写成 (TR-1)--(TR-5) 的联合可行域，并证明任何真实执行都映射到该 envelope；目前还没有求出其一般闭式值或 matching finite-capacity schedule。当前已证明的动态 corollary 只有
+剩下的更强目标是把 Steiner cut 与 time-expanded phase trace 接起来。`docs/finite-capacity-phase-cut-envelope.md` 已把这个接口写成 (TR-1)--(TR-5) 的联合可行域，并证明任何真实执行都映射到该 envelope；目前还没有求出其一般闭式值或 matching finite-capacity schedule。 该文件末尾还定义了允许 event multiplicity 的 recomputation envelope；它只给出合法优化域，尚未给出闭式最优值。当前已证明的动态 corollary 只有
 
 $$
 ∑_{ℓ=1}^{L} V_ℓ ≥ ∂(Π_fine),
