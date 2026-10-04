@@ -6,12 +6,12 @@ T3-static theorem 处理。
 
 ## 模型
 
-层次是一棵两条边的 rooted tree：
+层次是一棵三层 rooted tree：
 
 \[
 \text{root source}
 \longrightarrow
-\text{middle group}
+\text{\(H\) middle groups}
 \longrightarrow
 \text{\(R\) fine owners}.
 \]
@@ -22,7 +22,10 @@ C=AB,\qquad A\in\mathbb R^{R\times K},\quad
 B\in\mathbb R^{K\times N}.
 \]
 
-owner \(r\) 负责第 \(r\) 行的全部 products
+fine owner \(r\) 负责第 \(r\) 行的全部 products。\(R\) 个 owners 被划分成
+\(H\) 个 middle groups，记第 \(h\) 个 group 的 owner 集合为
+\(\mathcal R_h\)，且 \(\sum_h|\mathcal R_h|=R\)。
+
 \[
 \{a_{r,k}b_{k,j}:1\le k\le K,\ 1\le j\le N\}.
 \]
@@ -33,8 +36,8 @@ word 的 transient/shared cache；每个 fine owner 的 local cache 容量为 2�
 不单独收费；不允许 recomputation。C 的计算、写回和归约从这个 operand-only
 定理中省略。
 
-令 \(V_{\mathrm{top}}\) 是 root-to-middle volume，令
-\(V_{\mathrm{fine}}\) 是 middle-to-leaves 的 aggregate volume。
+令 \(V_{\mathrm{top}}\) 是所有 root-to-middle edges 的 aggregate volume，令
+\(V_{\mathrm{fine}}\) 是所有 middle-to-leaves edges 的 aggregate volume。
 
 ## 定理
 
@@ -42,7 +45,7 @@ word 的 transient/shared cache；每个 fine owner 的 local cache 容量为 2�
 
 \[
 \boxed{
-V_{\mathrm{top}}\ge RK+KN,
+V_{\mathrm{top}}\ge RK+HKN,
 \qquad
 V_{\mathrm{fine}}\ge RK+RKN.
 }
@@ -52,7 +55,7 @@ V_{\mathrm{fine}}\ge RK+RKN.
 因此总 operand volume 满足
 
 \[
-Q_{\mathrm{op}}\ge 2RK+(R+1)KN.
+Q_{\mathrm{op}}\ge 2RK+(H+R)KN.
 \tag{3L-OP-TOTAL}
 \]
 
@@ -62,10 +65,11 @@ Q_{\mathrm{op}}\ge 2RK+(R+1)KN.
 所以该 entry 至少要穿过 root-to-middle 一次，再穿过 middle-to-owner
 一次。共有 \(RK\) 个 A-entry，因此两条边各至少承担 \(RK\)。
 
-每个 \(b_{k,j}\) 被全部 \(R\) 个 owners 使用。root-to-middle 边上至少需要
-一个 arrival，因此 B 对 top edge 的贡献至少是 \(KN\)。在 middle-to-leaves
-边上，单个 B-entry 的需求叶集合包含全部 \(R\) 个 owners；每个 leaf-side
-copy lineage 至少产生一个 word event，所以其贡献至少是 \(RKN\)。
+每个 \(b_{k,j}\) 被每个 middle group 中的 owners 使用。root-to-middle
+边上，每个 group 至少需要一个 arrival，因此 B 对 top edge 的贡献至少是
+\(HKN\)。在 middle-to-leaves 边上，单个 B-entry 的需求叶集合包含全部
+\(R\) 个 owners；每个 leaf-side copy lineage 至少产生一个 word event，
+所以其贡献至少是 \(RKN\)。
 
 两类 entry 的需求不同，逐 entry 相加得到 (3L-OP-LB)。
 
@@ -73,17 +77,19 @@ copy lineage 至少产生一个 word event，所以其贡献至少是 \(RKN\)。
 
 对每个 reduction index \(k\)：
 
-1. root 将所有 \(a_{r,k}\) 各发送一次到 middle，再各发送一次到 owner \(r\)；
-2. root 将 \(B\) 的 \(N\) 个 entries \(b_{k,j}\) 各发送一次到 middle；
-3. middle 将当前 \(b_{k,j}\) 广播给所有 \(R\) owners；
+1. root 将所有 \(a_{r,k}\) 各发送一次到其所属 middle group，再各发送一次到
+   owner \(r\)；
+2. root 将 \(B\) 的 \(N\) 个 entries \(b_{k,j}\) 各发送一次到每个 middle
+   group；
+3. 每个 middle group 将当前 \(b_{k,j}\) 广播给自己的 owners；
 4. owner \(r\) 保留 \(a_{r,k}\) 和当前 \(b_{k,j}\)，完成
    \(a_{r,k}b_{k,j}\)。
 
-middle 的一个 shared slot 足够流式处理 \(B_{k,:}\)，owner 的两个 local
-slots 足够保留一个 A-entry 和当前 B-entry。该 schedule 使用
+每个 middle group 的一个 shared slot 足够流式处理 \(B_{k,:}\)，owner 的
+两个 local slots 足够保留一个 A-entry 和当前 B-entry。该 schedule 使用
 
 \[
-V_{\mathrm{top}}=RK+KN,\qquad
+V_{\mathrm{top}}=RK+HKN,\qquad
 V_{\mathrm{fine}}=RK+RKN,
 \]
 
