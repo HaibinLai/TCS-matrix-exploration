@@ -4,7 +4,7 @@ This repository contains the reproducible notes and exact-enumeration scripts fr
 
 The current computational focus is the three-level aspect-ratio model implemented in `experiments/exact_multilevel_2d.py`. A hierarchy is represented by processor counts $P^*=(P_1,P_2,P_3)$, normalized shape parameters $1\ge z\ge y\ge0$, affine communication lines for processor grids, and compatible nested chains.
 
-The divisor-profile arrangement remains a reproducible geometry case study, but it is no longer treated as the main theorem target. The current theory files state a tight three-level static vector bound, its arbitrary owner-partition boundary lemma, and an $L$-level/asymmetric-cost extension. The main open problem is now the time-expanded lifting lemma needed to cover dynamic ownership, finite-capacity phases, and recomputation.
+The divisor-profile arrangement remains a reproducible geometry case study, but it is no longer treated as the main theorem target. The current theory files state a tight three-level static vector bound, its arbitrary owner-partition boundary lemma, and an $L$-level/asymmetric-cost extension. The main open problem is now the time-expanded lifting lemma needed to cover dynamic ownership, finite-capacity phases, and recomputation. A new restricted/full-row-owner certificate gives an exact 14-word bound for the 2x2x2 M=3 shared-B trace.
 
 ## Contents
 

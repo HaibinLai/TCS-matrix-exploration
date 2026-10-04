@@ -84,3 +84,45 @@ M=4,G=1,one-arrival-per-B total=12
 Because the shortest-path graph contains every legal trace in this restricted model
 and every transition has its stated word cost, the result is exact and tight for
 that trace class.
+
+## A stronger row-split lower bound
+
+The exact certificate suggests a short analytic argument that removes the
+one-arrival-per-(B) restriction from the **lower bound**. Keep the one-copy
+input and no-recomputation assumptions, but allow arbitrary shared or direct
+(B)-delivery. For owner (i), let (a_i) count all arrivals of its two
+(A)-entries and let (c_i) count all movements of its two (C)-accumulators
+(stores, reloads, and final write-backs). Then
+
+\[
+a_i+c_i\ge 5\qquad(M=3).
+\tag{ROW-AC}
+\]
+
+Indeed (a_i\ge2) and (c_i\ge2). If equality (a_i+c_i=4) held, each
+(A_{ik}) would be loaded exactly once and remain resident until its second
+use, while each (C_{ij}) would remain resident from its first product through
+its second product and cross the edge only at its final write. Consider the first
+two products in the owner's order. If they use the same (k) and different
+(j), the two (C)-entries and one (A)-entry must remain resident; if they
+use different (k) and the same (j), the two (A)-entries and one (C)-entry
+must remain resident; if both coordinates differ, all four are active. In every
+case the current (B)-entry adds another resident word, requiring at least four
+local slots. This contradicts (M=3). Thus one extra (A)-arrival or (C)-movement
+is unavoidable, proving (ROW-AC).
+
+At least one source-to-child/owner transfer is required for each of the four
+distinct (B)-entries, so (Q_B\ge4). Consequently every fixed-row-owner,
+one-copy, no-recomputation (2\times2\times2) execution with (M=3) satisfies
+
+\[
+Q\ge (a_0+c_0)+(a_1+c_1)+Q_B
+  \ge 5+5+4=14.
+\tag{ROW-LB}
+\]
+
+The (G=1), one-arrival-per-(B) witness certified above attains 14, so this
+is an exact unrestricted result **within the fixed row-owner model**, even
+though the matching schedule happens to lie in the restricted class. It still
+does not cover dynamic owner reassignment, free initial replication,
+recomputation, or a shared (C)-partial/reduction path.
