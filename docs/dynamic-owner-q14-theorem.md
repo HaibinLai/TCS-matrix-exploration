@@ -80,6 +80,14 @@ Both cases contradict \(Q\le13\). The row-split schedule with \(G=1\) (and hence
 
 under the stated one-copy/no-recomputation/root-\(C\) model.
 
+A concrete matching schedule uses shared arrivals in the order
+\(B_{00},B_{01},B_{10},B_{11}\). Each row owner loads \(A_{i0}\), computes
+\((i,0,0)\), loads \(A_{i1}\), computes \((i,1,0)\), stores the completed
+\(C_{i0}\), promotes \(B_{01}\), computes \((i,1,1)\), reloads
+\(A_{i0}\), and computes \((i,0,1)\) before the final \(C_{i1}\) write.
+The local cost is three \(A\) arrivals plus two \(C\) movements per owner;
+the four shared arrivals give \(3\cdot2+2\cdot2+4=14\).
+
 ## Boundary of the theorem
 
 The argument relies on one baseline \(B\)-arrival being able to serve both owners,
