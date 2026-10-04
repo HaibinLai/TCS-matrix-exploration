@@ -113,6 +113,7 @@ $$
 - `check_shared_operand_streaming_lemma.py`：验证 row-split shared-operand streaming 公式；
 - `check_three_level_row_split_operand.py`：验证 root→middle→owners 的两条边 operand 下界公式；
 - `check_three_level_row_k_block_gemm.py`：验证含 C partial 和 output write-back 的三层 row--k-block theorem；
+- `check_l_level_row_k_block_gemm.py`：验证 fresh-arrival row--k-block 的 \(L\)-level rectangular/asymmetric theorem；
 - `prove_2r_subfamily_empty_cell_certificates.py`：验证固定 divisor profile 的 arrangement cells。
 
 因此目前最重要的下一步是对联合 trace 做小型 GEMM 的整数搜索，再补出 phase/HBL 的物理尺度推导和 matching trace，而不是继续增加 `r` 的样本。
