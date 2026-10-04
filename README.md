@@ -35,6 +35,7 @@ The divisor-profile arrangement remains a reproducible geometry case study, but 
 - `experiments/check_l_level_row_k_block_gemm.py` — checks the fresh-arrival L-level rectangular theorem.
 - `experiments/check_finite_capacity_row_split_gemm.py` — checks the finite-capacity row-split GEMM formula with and without shared B cache.
 - `experiments/check_restricted_shared_c_full_trace.py` — exact 0/1 trace certificate for the restricted one-arrival-per-B, shared-cache (2\times2\times2) GEMM; the corresponding theorem is in `docs/finite-capacity-restricted-shared-c-trace.md`.
+- `experiments/check_dynamic_owner_q13_obstruction.py` — checks the 2x2x2 cube-coloring parity obstruction; `docs/dynamic-owner-q14-theorem.md` proves dynamic-owner Q*=14 at M=3 under shared-B/root-C assumptions.
 - `experiments/check_recomputation_event_tradeoff.py` — checks the weighted toy boundary between owner reassignment and duplicated compute events.
 - `experiments/check_syrk_nested_incidence.py` — checks the restricted SYRK union-projection incidence theorem.
 - `docs/reports/` — agent reports and proof-gap notes.
