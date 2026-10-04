@@ -2,6 +2,39 @@
 
 This file is the handoff context for the matrix-multiplication I/O-complexity exploration.
 
+## Current theorem status (2026-10-04)
+
+The project has moved beyond the original 109-cell arrangement enumeration. The
+proved static results now include:
+
+- a three-level nested-partition vector theorem and its arbitrary nested-partition
+  generalization;
+- a fixed-tree, arbitrary-leaf-demand Steiner/cut theorem with a matching
+  memory-independent broadcast/reduction schedule;
+- a full three-level rectangular row--\(k\)-block GEMM theorem, including
+  asymmetric edge weights;
+- a fresh-arrival \(L\)-level rectangular theorem. If \(H_\ell\) is the number of
+  row groups and \(S_\ell\) the number of reduction groups below edge \(\ell\),
+  then
+  \[
+  V_\ell\ge mk+H_\ell kn+S_\ell mn,
+  \]
+  with equality in the explicitly defined fresh-arrival schedule model.
+
+The finite-capacity arbitrary-schedule theorem is still open. Its legal target is
+the joint phase/cut trace envelope in `docs/finite-capacity-phase-cut-envelope.md`;
+ownership and HBL terms cannot be added as independent scalars because their first
+loads overlap. Free initial replication has a tight multi-source Steiner-forest
+bound. Recomputation is only solved for a fixed event assignment; optimizing event
+multiplicity together with resident traces and edge costs remains open.
+
+The latest clarification is in `docs/recomputation-event-tradeoff.md`: for ordinary
+classical GEMM, moving a product to a different owner is owner reassignment, not a
+recomputation gain. A genuine recomputation theorem needs an externally constrained
+event that is retained while a second event is created elsewhere. The next useful
+experiment is a small integer search over event assignments and finite-capacity
+traces, beginning with \(2\times2\times2\) products.
+
 ## Research question
 
 Study tight I/O/communication lower bounds for matrix multiplication across sequential, two-level, multilevel, and parallel models. The literature notes cover Hong–Kung, classical GEMM, Strassen-like algorithms, distributed-memory lower bounds, symmetric kernels, and recent asymmetric-memory work. The current computational branch studies exact multilevel arrangements rather than claiming a new general parallel-GEMM lower bound.
