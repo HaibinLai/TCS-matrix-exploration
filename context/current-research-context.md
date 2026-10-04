@@ -87,4 +87,10 @@ Do not upgrade (2) or (3) into a general theorem without proving the point-degen
 
 ## Conversation handoff
 
-The original discussion asked for a Markdown research note, a current literature update on parallel tight lower bounds, and a concrete exploration of gaps. The notes in `docs/` preserve that discussion’s direction and the later computational refinements. The next concrete action is to derive parameterized certificates for the 109 point-degenerate owner/chain combinations, then rerun the full ratio proof and update the status boundary.
+The original discussion asked for a Markdown research note, a current literature update on parallel tight lower bounds, and a concrete exploration of gaps. The notes in `docs/` preserve that discussion’s direction and the later computational refinements. The arrangement-cell branch is now secondary; the next concrete action is to solve the finite-capacity event-aware trace envelope and test whether it admits a closed form or a restricted tight schedule.
+
+The consolidated theorem entry point is `docs/three-level-nested-main-theorem.md`;
+its arithmetic certificate is `experiments/check_three_level_nested_main_theorem.py`.
+A restricted symmetry-aware incidence extension is now recorded for SYRK and SYMM in
+`docs/syrk-nested-incidence-extension.md`; finite-memory symmetric phase coupling
+remains open.
