@@ -32,20 +32,24 @@ Q_4^{(1\text{-}B)}=12.
 \tag{RST}
 $$
 
-For every permutation of the four shared-\(B\) arrivals, the exact local cost of one
-row owner is
+For the correct four entries \(B_{00},B_{01},B_{10},B_{11}\), the exact local cost
+depends on the arrival permutation when \(M=3\): it is \(5\) for eight permutations
+and \(6\) for the other sixteen. For \(M=4\), every permutation has local
+cost \(4\). Therefore the minimum over permutations is
 
 $$
-q_3^{\rm row}=5,
+\min q_3^{\rm row}=5,
 \qquad
-q_4^{\rm row}=4,
+\min q_4^{\rm row}=4,
 $$
 
-where local cost includes \(A\) arrivals, \(C\) reloads/stores, and final write-back, but
-excludes the four shared-arrival words. Thus
+where local cost includes \(A\) arrivals, \(C\) reloads/stores, and final write-back,
+but excludes the four shared-arrival words. Hence the restricted-model minima are
 
 $$
-Q_M^{(1\text{-}B)}=4+2q_M^{\rm row}.
+\min Q_3^{(1\text{-}B)}=4+2\cdot5=14,
+\qquad
+\min Q_4^{(1\text{-}B)}=4+2\cdot4=12.
 $$
 
 The memory-independent source/copy plus final-write baseline is \(4+4+4=12\): four \(A\) words, four shared-\(B\) words, and four final \(C\) words. Hence \(M=3\) has an exact restricted-capacity penalty of two words, while \(M=4\) attains the baseline.
@@ -54,8 +58,9 @@ The memory-independent source/copy plus final-write baseline is \(4+4+4=12\): fo
 
 The result includes C partial lifetime and final write-back. Shared-B reuse reduces
 the B lineage to four arrivals, but three local slots cannot avoid all accumulator
-stores/reloads for every possible one-use B order. The extra two words are invisible
-to the memory-independent copy count and arise from the local resident trace.
+stores/reloads for the optimal one-use B order. The extra two words are invisible
+to the memory-independent copy count and arise from the local resident trace; an
+unfavorable arrival order can cost one more local word.
 
 The finite-state certificate is restricted to one arrival per \(B\) entry. The
 row-split argument below removes that arrival restriction from the lower bound,
@@ -72,10 +77,10 @@ and final write-back.
 The checker reports:
 
 ```text
-M 3 owner costs [5]
-M 4 owner costs [4]
+M 3 owner costs [5, 6] minimum 5
+M 4 owner costs [4] minimum 4
 restricted shared-C full-trace check=True
-M=3,G=1,one-arrival-per-B total=14
+M=3,G=1,one-arrival-per-B minimum total=14
 M=4,G=1,one-arrival-per-B total=12
 ```
 

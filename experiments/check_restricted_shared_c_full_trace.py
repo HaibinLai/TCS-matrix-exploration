@@ -21,7 +21,7 @@ from itertools import permutations
 
 # One owner: A_0,A_1 are ids 0,1; B_{00},B_{01},B_{10},B_{11} are ids 2..5;
 # C_0,C_1 are ids 6,7.
-PRODUCTS = ((0, 2, 6), (0, 3, 7), (1, 2, 6), (1, 3, 7))
+PRODUCTS = ((0, 2, 6), (0, 3, 7), (1, 4, 6), (1, 5, 7))
 B_IDS = tuple(range(2, 6))
 A_IDS = (0, 1)
 C_IDS = (6, 7)
@@ -62,14 +62,20 @@ def exact_owner_cost(order, capacity):
     start = (0, 0, 0, 0)  # event index, completed mask, local mask, root-current C
     distance = {start: 0}
     queue = deque([start])
+    best = 10**9
 
     while queue:
         state = queue.popleft()
         cost = distance[state]
+        if cost >= best:
+            continue
         event, done, local, root_current = state
         if done == 0b1111:
-            # Any C not current at root needs one final write.
-            return cost + 2 - popcount(root_current)
+            # Any C not current at root needs one final write. Keep searching:
+            # the first done state minimizes internal cost, not necessarily the
+            # internal cost plus the terminal write count.
+            best = min(best, cost + 2 - popcount(root_current))
+            continue
 
         initialized = 0
         for product, (_, _, c_id) in enumerate(PRODUCTS):
@@ -161,7 +167,8 @@ def exact_owner_cost(order, capacity):
                 distance[next_state] = cost
                 queue.appendleft(next_state)
 
-    raise AssertionError("restricted trace should always be feasible")
+    assert best < 10**9
+    return best
 
 
 def run():
@@ -173,14 +180,18 @@ def run():
         ]
         costs = {value for _, value in values}
         owner_costs[capacity] = costs
-        assert costs == ({5} if capacity == 3 else {4})
-        print("M", capacity, "owner costs", sorted(costs))
+        # With the correct four B_{k,j} entries, M=3 has good and bad
+        # one-arrival permutations (5 or 6); M=4 is permutation-independent.
+        assert costs == ({5, 6} if capacity == 3 else {4})
+        assert min(value for _, value in values) == (5 if capacity == 3 else 4)
+        print("M", capacity, "owner costs", sorted(costs),
+              "minimum", min(value for _, value in values))
 
     # Four shared B arrivals plus two independent row owners.
     assert min(owner_costs[3]) * 2 + 4 == 14
     assert min(owner_costs[4]) * 2 + 4 == 12
     print("restricted shared-C full-trace check=True")
-    print("M=3,G=1,one-arrival-per-B total=14")
+    print("M=3,G=1,one-arrival-per-B minimum total=14")
     print("M=4,G=1,one-arrival-per-B total=12")
 
 
