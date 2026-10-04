@@ -2,6 +2,13 @@
 
 这份文件区分已经证明的三类结果：静态 nested-partition 定理、固定层次树上任意叶端调度的 memory-independent Steiner 定理，以及仍待完成的 finite-capacity arbitrary-schedule 定理。旧的完整 affine-line sum 只作为矩形几何 proxy，不直接视为物理通信下界。
 
+## 主定理入口
+
+`docs/three-level-nested-main-theorem.md` 是当前三层结果的统一入口：它明确
+静态计费模型，给出 projection-incidence lower bound、one-level recovery、
+matching broadcast/reduction schedule，并列出 L-level、rectangular、asymmetric、
+replication/recomputation 和 SYRK/SYMM 的边界。下面的各个文件保留其证明分解。
+
 ## 已证明目标：静态 nested-partition theorem
 
 对 classical GEMM 的产品集合 `T = [m] × [k] × [n]`，令 `Π₁ ⪯ Π₂ ⪯ Π₃ ⪯ Π₄ = {T}` 是 owner-consistent nested partitions。定义投影和
@@ -113,6 +120,7 @@ $$
 - `check_shared_operand_streaming_lemma.py`：验证 row-split shared-operand streaming 公式；
 - `check_three_level_row_split_operand.py`：验证 root→middle→owners 的两条边 operand 下界公式；
 - `check_three_level_row_k_block_gemm.py`：验证含 C partial 和 output write-back 的三层 row--k-block theorem；
+- `check_three_level_nested_main_theorem.py`：验证主定理的 incidence increments、一层恢复、矩形和加权公式；
 - `check_l_level_row_k_block_gemm.py`：验证 fresh-arrival row--k-block 的 \(L\)-level rectangular/asymmetric theorem；
 - `check_recomputation_event_tradeoff.py`：检查固定 product assignment、owner reassignment 与 duplicated event 的 weighted toy trade-off；
 - `prove_2r_subfamily_empty_cell_certificates.py`：验证固定 divisor profile 的 arrangement cells。

@@ -10,6 +10,7 @@ The divisor-profile arrangement remains a reproducible geometry case study, but 
 
 - `docs/` — research notes, literature update, formal three-level model, static incremental theorem, general nested-partition theorem, hierarchical Steiner envelope, weighted rectangularization counterexample, arbitrary partition-boundary lemma, $L$-level/asymmetric-cost extension, phase/HBL multilevel interface, prior-work scope, symmetric-kernel scope, one-level recovery, nested-partition route, and proof obligations.
 - `docs/t3-arbitrary-schedule-steiner-theorem.md` — a cut/Steiner theorem for arbitrary leaf-side product assignments on a fixed three-level tree, with a matching broadcast/reduction schedule. It is the completed memory-independent arbitrary-schedule result; finite-capacity phase coupling remains open.
+- `docs/three-level-nested-main-theorem.md` — the consolidated formal statement: fixed model, three-level incidence lower bound, one-level recovery, rectangular/asymmetric extensions, tight schedule, and explicit replication/recomputation/SYRK boundaries.
 - `docs/finite-capacity-phase-cut-envelope.md` — the joint trace definition for coupling cut/ownership events with finite-capacity HBL phases, including the explicit overlap obstruction to naive addition and the event-aware recomputation extension.
 - `docs/replication-recomputation-boundaries.md` — the multi-source Steiner forest theorem for free initial replication and the event-based boundary for recomputation.
 - `docs/recomputation-event-tradeoff.md` — separates product-owner reassignment from true recomputation and formulates the joint event/forest/phase optimization still needed for a finite-capacity theorem.
@@ -27,6 +28,7 @@ The divisor-profile arrangement remains a reproducible geometry case study, but 
 - `experiments/check_shared_operand_streaming_lemma.py` — checks the row-split shared-operand streaming formula.
 - `experiments/check_three_level_row_split_operand.py` — checks the two-edge row-split operand theorem.
 - `experiments/check_three_level_row_k_block_gemm.py` — checks the full row-by-k-block three-level GEMM volume formulas.
+- `experiments/check_three_level_nested_main_theorem.py` — checks the consolidated incidence, one-level rectangular, and weighted formulas.
 - `experiments/check_l_level_row_k_block_gemm.py` — checks the fresh-arrival L-level rectangular theorem.
 - `experiments/check_recomputation_event_tradeoff.py` — checks the weighted toy boundary between owner reassignment and duplicated compute events.
 - `docs/reports/` — agent reports and proof-gap notes.
