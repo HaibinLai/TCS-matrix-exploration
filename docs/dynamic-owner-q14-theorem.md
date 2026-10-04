@@ -64,7 +64,8 @@ so (b_{AC}\le1). By (CUBE), the owner assignment is constant on each row:
   product each have a later second use, but at the second product the three
   entries of that product already occupy all three slots. Both first-product
   entries must therefore be reloaded or moved later, yielding at least two words
-  beyond the (12)-word baseline.
+  beyond the (12)-word baseline. Keeping one at the other owner does not help:
+  bringing it back to the computing owner is itself a charged transfer.
 - If (r_0\ne r_1), this is the fixed row-owner model. The row-owner lemma gives
   (a_i+c_i\ge5) for each owner: with only two (A)-arrivals and two final
   (C)-writes, the first two products would require at least four local slots.
