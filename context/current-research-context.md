@@ -94,3 +94,9 @@ its arithmetic certificate is `experiments/check_three_level_nested_main_theorem
 A restricted symmetry-aware incidence extension is now recorded for SYRK and SYMM in
 `docs/syrk-nested-incidence-extension.md`; finite-memory symmetric phase coupling
 remains open.
+
+A first finite-capacity tight subtheorem is now recorded in
+`docs/finite-capacity-row-split-gemm-theorem.md`: for row-split GEMM with local
+capacity \(M\ge K+2\), the exact traffic is \(RK+RN+RKN\) without a shared B cache
+and \(RK+RN+KN\) with a one-entry-or-larger shared B cache. The general smaller-cache
+phase/reload problem remains open.
