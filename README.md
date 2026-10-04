@@ -25,6 +25,7 @@ The divisor-profile arrangement remains a reproducible geometry case study, but 
 - `experiments/check_shared_operand_cut_lemma.py` — checks the restricted shared-operand cut lower bound.
 - `experiments/check_shared_operand_streaming_lemma.py` — checks the row-split shared-operand streaming formula.
 - `experiments/check_three_level_row_split_operand.py` — checks the two-edge row-split operand theorem.
+- `experiments/check_three_level_row_k_block_gemm.py` — checks the full row-by-k-block three-level GEMM volume formulas.
 - `docs/reports/` — agent reports and proof-gap notes.
 - `experiments/` — exact enumeration, symbolic certificates, scans, and counterexample searches.
 - `context/` — the current research handoff and explicit proof-status boundaries.
