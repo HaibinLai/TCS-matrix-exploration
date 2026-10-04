@@ -78,3 +78,13 @@ Thus the next useful target is a finite classification of product-owner label
 patterns under one extra source/partial event, followed by a clean single-owner
 (M=3) lemma. This is substantially smaller than enumerating arbitrary dynamic
 traces.
+
+## Subsequent analytic resolution
+
+The bounded search itself was inconclusive, but the search question is now resolved
+for this model by the cube-boundary theorem in
+`docs/dynamic-owner-q14-theorem.md`: a (Q\le13) trace has at most one extra
+word, which forces each fixed-(i) ((k,j)) layer to have a constant owner.
+The resulting constant-owner and row-owner cases both need two extra words, so
+(Q^*=14). The large-state search remains useful only as a diagnostic and is not
+used as the proof.
