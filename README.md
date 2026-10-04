@@ -12,6 +12,7 @@ The divisor-profile arrangement remains a reproducible geometry case study, but 
 - `docs/t3-arbitrary-schedule-steiner-theorem.md` — a cut/Steiner theorem for arbitrary leaf-side product assignments on a fixed three-level tree, with a matching broadcast/reduction schedule. It is the completed memory-independent arbitrary-schedule result; finite-capacity phase coupling remains open.
 - `docs/finite-capacity-phase-cut-envelope.md` — the joint trace definition for coupling cut/ownership events with finite-capacity HBL phases, including the explicit overlap obstruction to naive addition.
 - `docs/replication-recomputation-boundaries.md` — the multi-source Steiner forest theorem for free initial replication and the event-based boundary for recomputation.
+- `docs/recomputation-event-tradeoff.md` — separates product-owner reassignment from true recomputation and formulates the joint event/forest/phase optimization still needed for a finite-capacity theorem.
 - `experiments/exact_small_gemm_pebble.py` — an exact finite-state (2\times2\times2) read/partial-load search; it is deliberately a toy model and reports its omitted final-write/initial-C conventions.
 - `experiments/check_shared_cache_edge_accounting.py` — checks that shared child-cache reuse is counted once at the parent-child edge, while owner-private delivery is counted per owner.
 - `experiments/check_shared_cache_hbl_relaxation.py` — checks the explicit shared-cache HBL relaxation and its one-owner reduction.
@@ -27,6 +28,7 @@ The divisor-profile arrangement remains a reproducible geometry case study, but 
 - `experiments/check_three_level_row_split_operand.py` — checks the two-edge row-split operand theorem.
 - `experiments/check_three_level_row_k_block_gemm.py` — checks the full row-by-k-block three-level GEMM volume formulas.
 - `experiments/check_l_level_row_k_block_gemm.py` — checks the fresh-arrival L-level rectangular theorem.
+- `experiments/check_recomputation_event_tradeoff.py` — checks the weighted toy boundary between owner reassignment and duplicated compute events.
 - `docs/reports/` — agent reports and proof-gap notes.
 - `experiments/` — exact enumeration, symbolic certificates, scans, and counterexample searches.
 - `context/` — the current research handoff and explicit proof-status boundaries.
